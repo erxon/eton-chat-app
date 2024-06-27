@@ -22,7 +22,7 @@ export default function SignupForm() {
   function SignUp() {
     const { pending } = useFormStatus();
     return (
-      <button className="flex justify-center items-center gap-2 bg-teal-900 text-white p-2 rounded mt-3 disabled:opacity-75" disabled={pending} aria-disabled={pending}>
+      <button className="flex justify-center items-center gap-2 bg-cyan-500 transition hover:bg-cyan-600 text-white p-2 rounded mt-3 disabled:opacity-75" disabled={pending} aria-disabled={pending}>
         Signup
         {pending && <Loading />}
       </button>
@@ -35,7 +35,7 @@ export default function SignupForm() {
         <div className="flex mb-2 flex-col">
           <div>
             <input
-              className="w-full mb-2 p-2 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+              className="w-full mb-2 p-2 outline outline-1 opacity-50 rounded focus:outline-2 focus:outline-gray-500 focus:opacity-100"
               name="firstName"
               type="text"
               placeholder="First name"
@@ -52,7 +52,7 @@ export default function SignupForm() {
           </div>
           <div>
             <input
-              className="w-full p-2 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+              className="w-full p-2 outline outline-1 opacity-50 rounded focus:outline-2 focus:outline-gray-500  focus:opacity-100"
               name="lastName"
               type="text"
               placeholder="Last name"
@@ -75,7 +75,7 @@ export default function SignupForm() {
             name="email"
             type="email"
             placeholder="Email"
-            className="w-full p-2 pl-10 outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+            className="w-full p-2 pl-10 outline outline-1 opacity-50 rounded focus:outline-2 focus:outline-gray-500 focus:opacity-100"
             aria-describedby="email-error"
           />
           <div id="email-error" aria-live="polite" aria-atomic="true">
@@ -96,7 +96,7 @@ export default function SignupForm() {
               name="password"
               type={showPassword.password ? "text" : "password"}
               placeholder="Password"
-              className="peer w-full block p-2 pl-10 appearance-none outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+              className="peer w-full block p-2 pl-10 appearance-none outline outline-1 opacity-50 rounded focus:outline-2 focus:outline-gray-500 focus:opacity-100"
               aria-describedby="password-error"
             />
             <button
@@ -134,7 +134,7 @@ export default function SignupForm() {
               name="confirmPassword"
               type={showPassword.confirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
-              className="peer w-full block p-2 pl-10 appearance-none outline outline-1 opacity-50 rounded focus:outline-teal-900 focus:outline-2 focus:opacity-100"
+              className="peer w-full block p-2 pl-10 appearance-none outline outline-1 opacity-50 rounded focus:outline-2 focus:outline-gray-500 focus:opacity-100"
               aria-describedby="confirmPassword-error"
             />
             <button

@@ -19,7 +19,7 @@ export default function LoginForm() {
     return (
       <button
         type="submit"
-        className="mt-4 w-full bg-teal-900 text-white p-2 rounded flex justify-center items-center gap-2 disabled:opacity-75"
+        className="mt-4 w-full bg-cyan-500 transition hover:bg-cyan-600 text-white p-2 rounded flex justify-center items-center gap-2 disabled:opacity-75"
         aria-disabled={pending}
         disabled={pending}
       >
@@ -39,7 +39,7 @@ export default function LoginForm() {
               name="email"
               type="email"
               placeholder="Email"
-              className="w-full mb-2 p-2 pl-10 outline outline-1 outline-gray-300 rounded focus:outline-teal-900 focus:outline-2"
+              className="w-full mb-2 p-2 pl-10 outline outline-1 outline-gray-300 rounded focus:outline-2 focus:outline-gray-500"
             />
           </div>
           <div className="relative">
@@ -48,7 +48,7 @@ export default function LoginForm() {
               name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              className="peer w-full block p-2 pl-10 appearance-none outline outline-1 outline-gray-300 rounded focus:outline-teal-900 focus:outline-2"
+              className="peer w-full block p-2 pl-10 appearance-none outline outline-1 outline-gray-300 rounded focus:outline-2 focus:outline-gray-500"
             />
             <button
               onClick={() => setShowPassword(!showPassword)}
