@@ -1,17 +1,37 @@
+// For Refactor
 "use client";
 
 import Image from "next/image";
 import ContactCardMessage from "@/app/ui/components/ContactCardMessage";
 import clsx from "clsx";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { FormEventHandler, ReactEventHandler, useState } from "react";
+import {
+  FormEventHandler,
+  ReactEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { addChat } from "@/app/lib/chat/actions";
 
 export default function Page() {
   //Todo:
-  //Create a temporary data for chat logs
-  //Send message
+  //[done] Create a temporary data for chat logs
+  //[done] Send message
+  //[done] Fix Chat Log
+  //[] Insert the message to Database
+  //[] Fetch the messages
+  //[] Add Loading
+
+  interface Message {
+    from: string;
+    avatar: string;
+    message: string;
+  }
+
   const [typedMessage, setTypedMessage] = useState("");
-  const [messages, setMessages] = useState([
+  const chatLog = useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState<Message[]>([
     {
       from: "John Doe",
       avatar: "/other-user.png",
@@ -29,17 +49,18 @@ export default function Page() {
     },
   ]);
 
-  function handleSendMessage() {
-    setMessages([
-      ...messages,
-      {
-        from: "You",
-        avatar: "/eton.png",
-        message: typedMessage,
-      },
-    ]);
+  async function handleSendMessage() {
+    const result = await addChat(typedMessage);
+    console.log(result);
+
     setTypedMessage("");
   }
+
+  useEffect(() => {
+    if (chatLog.current) {
+      chatLog.current.scrollTop = chatLog.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
     <>
@@ -56,7 +77,10 @@ export default function Page() {
             <p className="font-semibold">John Doe</p>
             <p className="text-sm">Active</p>
           </div>
-          <div className="box-border p-3 mt-2 bg-neutral-50 rounded-lg h-[400px] overflow-y-scroll">
+          <div
+            className="box-border p-3 mt-2 bg-neutral-50 rounded-lg h-[400px] overflow-y-scroll"
+            ref={chatLog}
+          >
             {/* Chat logs */}
             {messages.map(
               ({
@@ -69,7 +93,7 @@ export default function Page() {
                 avatar: string;
               }) => {
                 return (
-                  <div key={message} className="flex gap-3">
+                  <div key={message} className="flex gap-3 mb-3">
                     {from !== "You" && (
                       <div className="flex items-center">
                         <Image

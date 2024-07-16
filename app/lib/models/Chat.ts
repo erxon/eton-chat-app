@@ -13,7 +13,7 @@ const chatSchema = new mongoose.Schema<Chats>({
     ref: "User",
   },
   message: String,
-  dateCreated: new Date(),
+  dateCreated: Date,
   dateModified: Date,
 });
 
