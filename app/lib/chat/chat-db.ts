@@ -10,8 +10,15 @@ export async function insert(message: Message) {
   try {
     const newMessage = new Chat({ ...message, dateCreated: new Date() });
     await newMessage.save();
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+}
 
-    return true;
+export async function getAllChats() {
+  try {
+    const chats = await Chat.find();
+    return chats;
   } catch (error) {
     throw new Error(`${error}`);
   }
