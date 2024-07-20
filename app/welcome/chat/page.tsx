@@ -1,19 +1,9 @@
 // For Refactor
-"use client";
-
-import Image from "next/image";
 import ContactCardMessage from "@/app/ui/components/ContactCardMessage";
-import clsx from "clsx";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import {
-  FormEventHandler,
-  ReactEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { addChat } from "@/app/lib/chat/actions";
+import { Suspense, useState } from "react";
 import ChatLogs from "@/app/ui/chat/ChatLogs";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { addChat } from "@/app/lib/chat/actions";
 
 export default function Page() {
   //Todo:
@@ -23,26 +13,6 @@ export default function Page() {
   //[] Insert the message to Database
   //[] Fetch the messages
   //[] Add Loading
-
-
-  const [typedMessage, setTypedMessage] = useState("");
-  const [sendMessageError, setSendMessageError] = useState<String>("");
-
-
-  async function handleSendMessage() {
-    try {
-      await addChat(typedMessage);
-      
-    } catch (error) {
-      if (error instanceof Error) {
-        setSendMessageError(error.message);
-      }
-    }
-
-    setTypedMessage("");
-  }
-
-  
 
   return (
     <>
@@ -60,25 +30,25 @@ export default function Page() {
             <p className="text-sm">Active</p>
           </div>
           {/* Chat Logs */}
-          <ChatLogs />
-          <div className="flex gap-1 items-center mt-5">
-            <input
-              className="p-3 rounded-full grow outline outline-1 outline-neutral-500 focus:outline-cyan-500"
-              placeholder="Type your message here..."
-              value={typedMessage}
-              onChange={(e) => setTypedMessage(e.target.value)}
-            />
-            <button
-              onClick={handleSendMessage}
-              className="p-2 rounded-full bg-cyan-500 font-semibold text-sm text-white flex items-center gap-1"
-            >
-              Send
-              <PaperAirplaneIcon className="w-4 h-4" />
-            </button>
-          </div>
-          {sendMessageError && (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ChatLogs />
+          </Suspense>
+          <form action={addChat}>
+            <div className="flex gap-1 items-center mt-5">
+              <input
+                className="p-3 rounded-full grow outline outline-1 outline-neutral-500 focus:outline-cyan-500"
+                placeholder="Type your message here..."
+                name="message"
+              />
+              <button type="submit" className="p-2 rounded-full bg-cyan-500 font-semibold text-sm text-white flex items-center gap-1">
+                Send
+                <PaperAirplaneIcon className="w-4 h-4" />
+              </button>
+            </div>
+          </form>
+          {/* {sendMessageError && (
             <p className="text-red-400 mt-1">{sendMessageError}</p>
-          )}
+          )} */}
         </div>
       </div>
     </>

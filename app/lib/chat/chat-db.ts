@@ -17,7 +17,9 @@ export async function insert(message: Message) {
 
 export async function getAllChats() {
   try {
+    await dbConnect();
     const chats = await Chat.find();
+    
     return chats;
   } catch (error) {
     throw new Error(`${error}`);
