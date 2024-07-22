@@ -30,7 +30,7 @@ export async function fetchUserByEmail(email: string | undefined | null) {
   }
 }
 
-export async function fetchAccount(id: string){
+export async function fetchAccount(id: string) {
   try {
     noStore();
     await dbConnect();
@@ -48,5 +48,14 @@ export async function fetchUsers() {
   } catch (error) {
     console.log(error);
     throw new Error("No users");
+  }
+}
+
+export async function fetchUser(term: string) {
+  try {
+    const foundUser = await User.find({ name: new RegExp(".*" + term + ".*") });
+    return foundUser;
+  } catch (error) {
+    throw new Error("User not found");
   }
 }

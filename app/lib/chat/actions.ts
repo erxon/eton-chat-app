@@ -23,3 +23,8 @@ export async function addChat(formData: FormData) {
   revalidatePath("/welcome/chat");
   redirect("/welcome/chat");
 }
+
+export async function findUser(formData : FormData){
+  const term = formData?.get("user") as string;
+  console.log(term);
+}

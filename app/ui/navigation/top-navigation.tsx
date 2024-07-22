@@ -13,11 +13,9 @@ import { BellIcon } from "@heroicons/react/24/solid";
 import React, { useRef, useState, useEffect, ReactEventHandler } from "react";
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { usePathname } from "next/navigation";
 
 export default function TopNavigation({ avatar }: { avatar: string }) {
   const [showPopup, setShowPopup] = useState(false);
-  const pathname = usePathname();
 
   return (
     <div className="h-18 flex items-center px-10 lg:shadow-sm">
@@ -41,7 +39,7 @@ export default function TopNavigation({ avatar }: { avatar: string }) {
           name="Contacts"
         />
         <NavLink
-          href="/search"
+          href="/welcome/find"
           icon={<MagnifyingGlassIcon className="w-4 h-4 md:w-6 md:h-6" />}
           name="Search"
         />
