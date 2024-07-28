@@ -53,9 +53,18 @@ export async function fetchUsers() {
 
 export async function fetchUser(term: string) {
   try {
-    const foundUser = await User.find({ name: new RegExp(".*" + term + ".*") });
+    const foundUser = await User.find({ name: new RegExp(term, "i") });
     return foundUser;
   } catch (error) {
     throw new Error("User not found");
+  }
+}
+
+export async function fetchUserProfile(id: string) {
+  try {
+    const profile = User.findById(id);
+    return profile;
+  } catch (error) {
+    throw new Error(`${error}`);
   }
 }

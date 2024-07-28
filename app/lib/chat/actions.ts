@@ -2,7 +2,7 @@
 
 import { insert } from "./chat-db";
 import { auth } from "@/auth";
-import { fetchUserByEmail } from "../data";
+import { fetchUser, fetchUserByEmail } from "../data";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -24,7 +24,13 @@ export async function addChat(formData: FormData) {
   redirect("/welcome/chat");
 }
 
-export async function findUser(formData : FormData){
-  const term = formData?.get("user") as string;
-  console.log(term);
+export async function findUser(term: string) {
+  try {
+    if (term !== "") {
+      const result = await fetchUser(term);
+      return result;
+    }
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
 }
