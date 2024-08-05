@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 export interface Channels extends mongoose.Document {
   name: mongoose.Schema.Types.String;
   members: mongoose.Schema.Types.Array;
-  userId: mongoose.Schema.Types.ObjectId;
+  requestedBy: mongoose.Schema.Types.ObjectId;
+  requestedTo: mongoose.Schema.Types.ObjectId;
   contact: mongoose.Schema.Types.ObjectId;
   status: String;
   chat: [mongoose.Schema.Types.ObjectId];
@@ -14,6 +15,8 @@ export interface Channels extends mongoose.Document {
 const channelSchema = new mongoose.Schema<Channels>({
   name: String,
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  requestedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  requestedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   status: {
     type: String,
     enum: ["pending", "active"],

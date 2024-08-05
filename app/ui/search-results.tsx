@@ -2,6 +2,8 @@ import { findUser } from "../lib/chat/actions";
 import { fetchUserByEmail } from "../lib/data";
 import UserCard from "./find/user-card";
 import { auth } from "@/auth";
+import { fetchChannels } from "../lib/channel/data";
+import { Channel } from "../lib/channel/data";
 
 interface User {
   name: string;
@@ -14,6 +16,31 @@ export default async function Results({ query }: { query: string }) {
   const foundUsers = await findUser(query);
   const session = await auth();
   const currentUser = await fetchUserByEmail(session?.user?.email);
+  const currentUserChannels = await fetchChannels(currentUser?.id);
+  console.log(currentUserChannels)
+
+  function userReceivedRequest(userID: string) {
+    const result = !!currentUserChannels.find((channel: Channel) => {
+      return (
+        channel.requestedTo.toString() === userID &&
+        channel.requestedBy.toString() === currentUser?.id &&
+        channel.status === "pending"
+      );
+    });
+
+    return result;
+  }
+
+  function userRequest(userID: string) {
+    const result = !!currentUserChannels.find((channel: Channel) => {
+      return (
+        channel.requestedBy.toString() === userID &&
+        channel.requestedTo.toString() === currentUser?.id &&
+        channel.status === "pending"
+      );
+    });
+    return result;
+  }
 
   return (
     <div className="md:w-3/4 w-full mx-auto">
@@ -24,17 +51,21 @@ export default async function Results({ query }: { query: string }) {
           <p className="text-left text-neutral-500 mb-3">Results</p>
         ))}
       {foundUsers?.map((user: User) => {
-        return (
-          <UserCard
-            key={user.id}
-            query={query}
-            currentUser={currentUser?.id}
-            userID={user.id}
-            name={user.name}
-            image={user.image}
-            email={user.email}
-          />
-        );
+        if (!(currentUser?.id === user.id)) {
+          return (
+            <UserCard
+              key={user.id}
+              query={query}
+              currentUser={currentUser?.id}
+              userID={user.id}
+              name={user.name}
+              image={user.image}
+              email={user.email}
+              userRequest={userRequest(user.id)}
+              userReceivedRequest={userReceivedRequest(user.id)}
+            />
+          );
+        }
       })}
     </div>
   );
