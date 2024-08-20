@@ -3,31 +3,44 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { revalidatePath } from "next/cache";
 
 export default function Search() {
   const [term, setTerm] = useState<string>();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+  const searchInput = useRef<HTMLInputElement>(null);
 
   function handleSearch(term: string) {
     setTerm(term);
   }
 
   function onSearch() {
-    const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("query", term);
       replace(`${pathname}?${params.toString()}`);
     }
   }
 
+  function clearInput() {
+    if (params.get("query")) {
+      searchInput!.current!.value = "";
+      params.delete("query");
+
+      replace(pathname);
+    }
+  }
   return (
     <div>
       <div>
         <h1 className="font-semibold mb-2 md:block hidden">Need Someone?</h1>
-        <p className="font-semibold mb-2 text-2xl md:hidden block">Need Someone?</p>
+        <p className="font-semibold mb-2 text-2xl md:hidden block">
+          Need Someone?
+        </p>
         <p>Search here</p>
       </div>
       {/* Search form */}
@@ -40,8 +53,17 @@ export default function Search() {
             onChange={(e) => {
               handleSearch(e.target.value);
             }}
+            ref={searchInput}
             defaultValue={searchParams.get("query")?.toString()}
           />
+          {!!searchParams.get("query") && (
+            <button
+              onClick={clearInput}
+              className="absolute w-6 h-6 inset-y-4 right-3 transition rounded-full hover:bg-neutral-300"
+            >
+              <XMarkIcon />
+            </button>
+          )}
         </div>
         <button
           type="submit"

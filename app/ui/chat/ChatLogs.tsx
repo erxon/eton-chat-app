@@ -1,6 +1,6 @@
 "use server";
 
-import { getAllChats } from "@/app/lib/chat/chat-db";
+import { getAllChats } from "@/app/lib/database/chat-db";
 import clsx from "clsx";
 import { auth } from "@/auth";
 import { fetchUserByEmail } from "@/app/lib/data";

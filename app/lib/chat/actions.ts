@@ -1,6 +1,6 @@
 "use server";
 
-import { insert } from "./chat-db";
+import { insert } from "../database/chat-db";
 import { auth } from "@/auth";
 import { fetchUser, fetchUserByEmail } from "../data";
 import { revalidatePath } from "next/cache";

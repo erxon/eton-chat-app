@@ -19,7 +19,7 @@ const channelSchema = new mongoose.Schema<Channels>({
   requestedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   status: {
     type: String,
-    enum: ["pending", "active"],
+    enum: ["pending", "active", "inactive"],
   },
   chat: {
     type: [mongoose.Schema.Types.ObjectId],

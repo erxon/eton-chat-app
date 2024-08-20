@@ -16,9 +16,20 @@ export interface Channel {
 
 export async function fetchChannels(userID: string) {
   try {
-    const userChannels = await Channel.find({ members: userID});
+    const userChannels = await Channel.find({ members: userID });
     return userChannels;
   } catch (error) {
     throw new Error("Something went wrong");
+  }
+}
+
+export async function fetchChannelByMembers(member1: string, member2: string) {
+  try {
+    const channel = await Channel.findOne({ members: [member1, member2] });
+    return channel;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 }

@@ -13,15 +13,18 @@ export default function Page({
     <>
       <div className="mx-auto lg:w-1/2 w-full text-center">
         <Search />
-        <Suspense
-          fallback={
-            <div>
-              Searching <Loading />
-            </div>
-          }
-        >
-          <Results query={query} />
-        </Suspense>
+        {query !== "" && (
+          <Suspense
+            fallback={
+              <div className="flex gap-2 text-center">
+                <p>Searching</p>
+                <Loading />
+              </div>
+            }
+          >
+            <Results query={query} />
+          </Suspense>
+        )}
       </div>
     </>
   );

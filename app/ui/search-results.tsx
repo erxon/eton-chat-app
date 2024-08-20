@@ -4,6 +4,7 @@ import UserCard from "./find/user-card";
 import { auth } from "@/auth";
 import { fetchChannels } from "../lib/channel/data";
 import { Channel } from "../lib/channel/data";
+import { fetchContacts } from "../lib/profile/data";
 
 interface User {
   name: string;
@@ -17,7 +18,7 @@ export default async function Results({ query }: { query: string }) {
   const session = await auth();
   const currentUser = await fetchUserByEmail(session?.user?.email);
   const currentUserChannels = await fetchChannels(currentUser?.id);
-  console.log(currentUserChannels)
+  const contacts = await fetchContacts(currentUser?.id);
 
   function userReceivedRequest(userID: string) {
     const result = !!currentUserChannels.find((channel: Channel) => {
@@ -42,6 +43,14 @@ export default async function Results({ query }: { query: string }) {
     return result;
   }
 
+  function isContact(userID : string){
+    const result = !!contacts.find((contact : string) => {
+      return userID === contact.toString();
+    });
+
+    return result;
+  }
+
   return (
     <div className="md:w-3/4 w-full mx-auto">
       {foundUsers &&
@@ -63,6 +72,7 @@ export default async function Results({ query }: { query: string }) {
               email={user.email}
               userRequest={userRequest(user.id)}
               userReceivedRequest={userReceivedRequest(user.id)}
+              isContact={isContact(user.id)}
             />
           );
         }

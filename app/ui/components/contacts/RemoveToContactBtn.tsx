@@ -1,35 +1,34 @@
 "use client";
 
-import { deleteChannel } from "@/app/lib/contact/actions";
 import { UserMinusIcon } from "@heroicons/react/24/outline";
-import React, { useRef, useState } from "react";
+import { removeFromContact } from "@/app/lib/profile/actions";
+import { useRef, useState } from "react";
 
-export default function CancelRequestBtn({
-  currentUserID,
-  otherUserID,
+export default function RemoveToContactBtn({
+  userID,
+  contact,
   query,
 }: {
-  currentUserID: string;
-  otherUserID: string;
+  userID: string;
+  contact: string;
   query: string;
 }) {
-  const cancelRequestConfirmation = useRef<HTMLDialogElement>(null);
+  const deleteRequest = useRef<HTMLDialogElement>(null);
   const [disabled, setDisabled] = useState(false);
 
   return (
     <>
       <button
-        onClick={() => {
-          cancelRequestConfirmation.current?.showModal();
-        }}
-        className="p-1 text-sm rounded font-regular transition bg-neutral-200 hover:bg-neutral-300 mr-2"
+        className="tooltip"
+        data-tip="Remove"
+        onClick={() => deleteRequest?.current?.showModal()}
       >
-        Cancel
+        <UserMinusIcon className="w-6 h-6 mr-2 text-neutral-400" />
       </button>
-      <dialog ref={cancelRequestConfirmation} className="modal text-left">
+      <dialog ref={deleteRequest} className="modal text-left">
         <div className="modal-box">
           <h3 className="text-lg">
-            Are you sure you want to cancel your request?
+            Are you sure you want to remove the user from your contacts?
           </h3>
           <div className="modal-action">
             <button
@@ -37,7 +36,7 @@ export default function CancelRequestBtn({
               disabled={disabled}
               onClick={async () => {
                 setDisabled(true);
-                await deleteChannel(`${currentUserID}-${otherUserID}`, query);
+                await removeFromContact(userID, contact, query);
               }}
             >
               Yes

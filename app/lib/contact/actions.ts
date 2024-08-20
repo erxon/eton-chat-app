@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { create, deleteChannelByName } from "../database/channel-db";
+import { fetchChannelByMembers } from "../channel/data";
 
 export async function createChannel(
   userID: string,
@@ -10,8 +11,15 @@ export async function createChannel(
   query: string
 ) {
   try {
-    await create(userID, otherUserID);
-    console.log("success");
+    //check if there is an existing channel
+    const channel = await fetchChannelByMembers(userID, otherUserID);
+
+    if (!!channel) {
+      channel.status = "pending";
+      await channel.save();
+    } else {
+      await create(userID, otherUserID);
+    }
   } catch (error) {
     throw new Error(`${error}`);
   }
@@ -26,6 +34,7 @@ export async function deleteChannel(name: string, query: string) {
   } catch (error) {
     throw new Error("Something went wrong. Please try again later");
   }
+  
   revalidatePath(`/welcome/find?query=${query}`);
   redirect(`/welcome/find?query=${query}`);
 }
