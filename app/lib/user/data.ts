@@ -1,6 +1,6 @@
-import User from "./models/User";
-import Account from "./models/Account";
-import dbConnect from "./db-connect";
+import User from "../models/User";
+import Account from "../models/Account";
+import dbConnect from "../db-connect";
 import { unstable_noStore as noStore } from "next/cache";
 
 export async function fetchUserById(id: string) {

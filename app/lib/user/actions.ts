@@ -7,15 +7,16 @@ import {
   hashPassword,
   isEmailExist,
   isPasswordMatch,
-} from "./utilities/auth-utils";
-import { isEmpty } from "./utilities/for-form";
+} from "../utilities/auth-utils";
+import { isEmpty } from "../utilities/for-form";
 import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
-import { create, update } from "./database/user-db";
+import { create, update } from "../database/user-db";
 import { auth } from "@/auth";
-import { checkFile, imageUpload } from "./utilities/for-form";
+import { checkFile, imageUpload } from "../utilities/for-form";
 import { v2 as cloudinary } from "cloudinary";
-import {signIn as signInWithProvider} from "@/auth-with-provider";
+import { signIn as signInWithProvider } from "@/auth-with-provider";
+import { createProfile } from "../database/profile-db";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -108,7 +109,7 @@ export async function createUser(prevState: State, formData: FormData) {
       hash: encryptedPassword.hash,
       salt: encryptedPassword.salt,
     });
-
+    await createProfile(newUser.email);
     id = newUser.id;
   } catch (error) {
     return { message: `${error}` };
@@ -195,7 +196,7 @@ export async function updateUser(
       const encryptedPassword = await hashPassword(password);
       await update(email, {
         hash: encryptedPassword.hash,
-        salt: encryptedPassword.salt
+        salt: encryptedPassword.salt,
       });
     }
 
@@ -241,7 +242,7 @@ export async function authenticate(
   }
 }
 
-export async function signInWithGoogle(){
+export async function signInWithGoogle() {
   await signInWithProvider("google");
 }
 

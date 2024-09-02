@@ -1,5 +1,5 @@
 import { findUser } from "../lib/chat/actions";
-import { fetchUserByEmail } from "../lib/data";
+import { fetchUserByEmail } from "../lib/user/data";
 import UserCard from "./find/user-card";
 import { auth } from "@/auth";
 import { fetchChannels } from "../lib/channel/data";
@@ -43,8 +43,12 @@ export default async function Results({ query }: { query: string }) {
     return result;
   }
 
-  function isContact(userID : string){
-    const result = !!contacts.find((contact : string) => {
+  function isContact(userID: string) {
+    if (!contacts) {
+      return false;
+    }
+
+    const result = !!contacts.find((contact: string) => {
       return userID === contact.toString();
     });
 

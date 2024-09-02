@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { fetchUserProfile } from "../lib/data";
+import { fetchUserProfile } from "../lib/user/data";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 
 export default async function Profile({ id }: { id: string }) {

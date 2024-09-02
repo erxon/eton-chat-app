@@ -1,9 +1,9 @@
 import { signOut } from "@/auth";
-import { fetchUserByEmail, fetchAccount } from "../lib/data";
+import { fetchUserByEmail, fetchAccount } from "../lib/user/data";
 import { UserIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { auth } from "@/auth";
-import { signOutTrigger } from "../lib/actions";
+import { signOutTrigger } from "../lib/user/actions";
 
 export default async function User() {
   const session = await auth();

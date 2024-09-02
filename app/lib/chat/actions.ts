@@ -2,7 +2,7 @@
 
 import { insert } from "../database/chat-db";
 import { auth } from "@/auth";
-import { fetchUser, fetchUserByEmail } from "../data";
+import { fetchUser, fetchUserByEmail } from "../user/data";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

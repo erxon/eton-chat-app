@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { signInWithGoogle } from "@/app/lib/actions";
+import { signInWithGoogle } from "@/app/lib/user/actions";
 import { useFormStatus } from "react-dom";
 import Loading from "../components/Loading";
 

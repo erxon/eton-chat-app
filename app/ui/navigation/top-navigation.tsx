@@ -1,7 +1,7 @@
 "use client";
 
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
-import { signOutTrigger } from "../../lib/actions";
+import { signOutTrigger } from "../../lib/user/actions";
 import { auth } from "@/auth";
 import Link from "next/link";
 import NavLink from "../components/NavLink";
@@ -14,7 +14,7 @@ import React, { useRef, useState, useEffect, ReactEventHandler } from "react";
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/outline";
 
-export default function TopNavigation({ avatar }: { avatar: string }) {
+export default function TopNavigation({ avatar, userId }: { avatar: string, userId: string }) {
   const [showPopup, setShowPopup] = useState(false);
 
   return (
@@ -69,7 +69,7 @@ export default function TopNavigation({ avatar }: { avatar: string }) {
         {showPopup && (
           <div className="absolute bg-white p-2 right-0 shadow-md text-sm z-10">
             <Link
-              href="/welcome/profile"
+              href={`/welcome/profile/${userId}`}
               onClick={() => {
                 setShowPopup(false);
               }}

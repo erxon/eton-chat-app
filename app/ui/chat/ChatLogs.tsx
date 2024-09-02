@@ -3,7 +3,7 @@
 import { getAllChats } from "@/app/lib/database/chat-db";
 import clsx from "clsx";
 import { auth } from "@/auth";
-import { fetchUserByEmail } from "@/app/lib/data";
+import { fetchUserByEmail } from "@/app/lib/user/data";
 import Image from "next/image";
 
 interface Chats {

@@ -4,7 +4,7 @@ import FileUpload from "./components/FileUpload";
 import TextField from "./components/TextField";
 import PasswordField from "./components/PasswordField";
 import { useFormState, useFormStatus } from "react-dom";
-import { updateUser } from "../lib/actions";
+import { updateUser } from "../lib/user/actions";
 import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 import Loading from "./components/Loading";

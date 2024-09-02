@@ -1,7 +1,7 @@
 import React from "react";
 import EditProfileForm from "@/app/ui/edit-profile";
 import { auth } from "@/auth";
-import { fetchAccount, fetchUserByEmail } from "@/app/lib/data";
+import { fetchAccount, fetchUserByEmail } from "@/app/lib/user/data";
 
 export default async function Page() {
   const session = await auth();

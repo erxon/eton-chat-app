@@ -1,4 +1,4 @@
-import { fetchUserById } from "@/app/lib/data";
+import { fetchUserById } from "@/app/lib/user/data";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 

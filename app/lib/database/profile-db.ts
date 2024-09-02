@@ -1,5 +1,19 @@
 import Profile from "../models/Profile";
 
+//Create new profile
+export async function createProfile(email: string) {
+  try {
+    const profile = new Profile({ email: email });
+
+    await profile.save();
+    return true;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+  }
+}
+
 //Add Contact to each user
 export async function addContacts(inviter: string, accepter: string) {
   try {

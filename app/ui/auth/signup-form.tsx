@@ -5,7 +5,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
-import { createUser } from "@/app/lib/actions";
+import { createUser } from "@/app/lib/user/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import Loading from "../components/Loading";
 
