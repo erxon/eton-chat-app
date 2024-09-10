@@ -8,7 +8,7 @@ export async function fetchUserById(id: string) {
     const user = await User.findById(id);
     return user;
   } catch (error) {
-    return null;
+    throw new Error("Something went wrong fetching user");
   }
 }
 
@@ -62,9 +62,11 @@ export async function fetchUser(term: string) {
 
 export async function fetchUserProfile(id: string) {
   try {
-    const profile = User.findById(id);
+    const profile = await User.findById(id);
     return profile;
   } catch (error) {
-    throw new Error(`${error}`);
+    if (error instanceof Error) {
+      throw new Error(`${error}`);
+    }
   }
 }

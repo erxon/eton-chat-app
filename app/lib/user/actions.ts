@@ -17,6 +17,8 @@ import { checkFile, imageUpload } from "../utilities/for-form";
 import { v2 as cloudinary } from "cloudinary";
 import { signIn as signInWithProvider } from "@/auth-with-provider";
 import { createProfile } from "../database/profile-db";
+import { updateProfile } from "../database/profile-db";
+import { isNull } from "lodash";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -200,8 +202,32 @@ export async function updateUser(
       });
     }
 
+    //update user
     await update(email, {
       name: `${firstName} ${lastName}`,
+    });
+
+    //update profile
+    const birthday = formData.get("birthday");
+    let birthdayDate = !isNull(birthday) ? new Date(birthday.toString()) : "";
+    let age = 0;
+    if (typeof birthdayDate !== "string") {
+      age =
+        (new Date().getTime() - birthdayDate.getTime()) / (3.154 * (10 ** 10));
+      age = Math.floor(age);
+    }
+
+    await updateProfile(email, {
+      address: formData.get("address")
+        ? formData.get("address")?.toString()
+        : "",
+      contactNumber: formData.get("contactNumber")
+        ? formData.get("contactNumber")?.toString()
+        : "",
+      about: formData.get("about") ? formData.get("about")?.toString() : "",
+      birthday: birthdayDate,
+      age: age,
+      gender: formData.get("gender") ? formData.get("gender")?.toString() : "",
     });
 
     revalidatePath("/profile/welcome");

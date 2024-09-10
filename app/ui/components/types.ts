@@ -6,6 +6,6 @@ export interface FieldTypes {
     placeholder: string;
     style?: string;
     disabled?: boolean;
-    defaultValue?: string;
+    defaultValue?: string | number | readonly string[];
     handleChange?: (term: string) => void;
 }

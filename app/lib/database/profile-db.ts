@@ -52,3 +52,27 @@ export async function removeContact(userID: string, contact: string) {
     }
   }
 }
+
+export async function updateProfile(
+  email: string | undefined | null,
+  updates: {
+    address?: string | null;
+    about?: string | null;
+    birthday?: String | Date | null;
+    age?: Number | null;
+    gender?: String | null;
+    contactNumber?: String | null;
+  }
+) {
+  try {
+    const findAndUpdate = await Profile.findOneAndUpdate(
+      { email: email },
+      updates
+    );
+    return { updated: true, ...findAndUpdate };
+  } catch (error) {
+    throw new Error(
+      "Database error: something went wrong updating the profile"
+    );
+  }
+}
