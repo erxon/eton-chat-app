@@ -111,7 +111,11 @@ export async function createUser(prevState: State, formData: FormData) {
       hash: encryptedPassword.hash,
       salt: encryptedPassword.salt,
     });
-    await createProfile(newUser.email);
+
+    console.log(email);
+
+    await createProfile(email);
+
     id = newUser.id;
   } catch (error) {
     return { message: `${error}` };
@@ -209,11 +213,11 @@ export async function updateUser(
 
     //update profile
     const birthday = formData.get("birthday");
-    let birthdayDate = !isNull(birthday) ? new Date(birthday.toString()) : "";
     let age = 0;
-    if (typeof birthdayDate !== "string") {
-      age =
-        (new Date().getTime() - birthdayDate.getTime()) / (3.154 * (10 ** 10));
+    if (birthday) {
+      let age =
+        (new Date().getTime() - new Date(birthday.toString()).getTime()) /
+        (3.154 * 10 ** 10);
       age = Math.floor(age);
     }
 
@@ -225,7 +229,7 @@ export async function updateUser(
         ? formData.get("contactNumber")?.toString()
         : "",
       about: formData.get("about") ? formData.get("about")?.toString() : "",
-      birthday: birthdayDate,
+      birthday: !isNull(birthday) ? new Date(birthday.toString()) : undefined,
       age: age,
       gender: formData.get("gender") ? formData.get("gender")?.toString() : "",
     });

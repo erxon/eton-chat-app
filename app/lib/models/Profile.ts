@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export interface Profiles extends mongoose.Document {
   userId: mongoose.Types.ObjectId;
+  email: String;
   address: String;
   about: String;
   birthday: Date;
@@ -13,6 +14,7 @@ export interface Profiles extends mongoose.Document {
 
 const profileSchema = new mongoose.Schema<Profiles>({
   userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+  email: String,
   address: String,
   about: String,
   birthday: Date,

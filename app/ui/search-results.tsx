@@ -18,7 +18,7 @@ export default async function Results({ query }: { query: string }) {
   const session = await auth();
   const currentUser = await fetchUserByEmail(session?.user?.email);
   const currentUserChannels = await fetchChannels(currentUser?.id);
-  const contacts = await fetchContacts(currentUser?.id);
+  const contacts = await fetchContacts(currentUser?.email);
 
   function userReceivedRequest(userID: string) {
     const result = !!currentUserChannels.find((channel: Channel) => {

@@ -2,9 +2,9 @@
 
 import Profile from "../models/Profile";
 
-export async function fetchContacts(userID: string) {
+export async function fetchContacts(email: string | null | undefined) {
   try {
-    const profile = await Profile.findOne({ userId: userID });
+    const profile = await Profile.findOne({ email: email});
     const contacts = profile?.contacts;
 
     return contacts;

@@ -62,7 +62,7 @@ export default async function Profile({ id }: { id: string }) {
       </div>
     );
   }
-
+  console.log(profile.email)
   return (
     <>
       <div className="w-3/4 mx-auto">
@@ -99,7 +99,7 @@ export default async function Profile({ id }: { id: string }) {
         <div className="grid grid-cols-8 gap-3 mt-10">
           <div className="col-span-3 p-3 bg-neutral-50 rounded-md">
             <About title="About" content={profile?.about} />
-            <About title="Birthday" content={profile?.birthday} />
+            <About title="Birthday" content={profile.birthday ? profile?.birthday.toDateString() : undefined} />
             <About title="Lives in" content={profile?.address} />
             <About title="Email" content={profile?.email} />
             <About title="Contact number" content={profile?.contactNumber} />

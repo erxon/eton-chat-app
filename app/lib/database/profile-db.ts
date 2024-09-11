@@ -1,4 +1,5 @@
 import Profile from "../models/Profile";
+import User from "../models/User";
 
 //Create new profile
 export async function createProfile(email: string) {
@@ -6,7 +7,9 @@ export async function createProfile(email: string) {
     const profile = new Profile({ email: email });
 
     await profile.save();
+
     return true;
+
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
@@ -17,13 +20,15 @@ export async function createProfile(email: string) {
 //Add Contact to each user
 export async function addContacts(inviter: string, accepter: string) {
   try {
-    const addToInviter = await Profile.findOne({ userId: inviter });
-    addToInviter.contacts?.push(accepter);
-    await addToInviter.save();
+    const addToInviter = await User.findById(inviter);
+    const inviterProfile = await Profile.findOne({email: addToInviter.email})
+    inviterProfile.contacts?.push(accepter);
+    await inviterProfile.save();
 
-    const addToAccepter = await Profile.findOne({ userId: accepter });
-    addToAccepter.contacts?.push(inviter);
-    await addToAccepter.save();
+    const addToAccepter = await User.findById(accepter);
+    const accepterProfile = await Profile.findOne({email: addToAccepter.email})
+    accepterProfile.contacts?.push(inviter);
+    await accepterProfile.save();
 
     return true;
   } catch (error) {

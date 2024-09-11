@@ -1,11 +1,16 @@
 import Image from "next/image";
 import clsx from "clsx";
+import { fetchUserById } from "@/app/lib/user/data";
 
-export default function ContactCardMessage({
+export default async function ContactCardMessage({
+  id,
   active = false,
 }: {
+  id : string
   active: boolean;
 }) {
+  const user = await fetchUserById(id);
+
   return (
     <div
       className={clsx(
@@ -18,7 +23,7 @@ export default function ContactCardMessage({
           className="rounded-full"
           width={40}
           height={40}
-          src="/eton.png"
+          src={`/${user?.image}`}
           alt="contact avatar"
         />
         {/* Active Indicator */}
@@ -26,7 +31,7 @@ export default function ContactCardMessage({
       </div>
       <div>
         {/* Contact's name */}
-        <p className="font-semibold">John Doe</p>
+        <p className="font-semibold">{user?.name}</p>
         {/* Recent message sent */}
         <p className="text-neutral-600 text-sm">
           Lorem ipsum sit amet do siew...

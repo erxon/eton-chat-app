@@ -18,6 +18,7 @@ export async function contactRequestAccepted(
       throw new Error(error.message);
     }
   }
+
   revalidatePath(`/welcome/find?query=${query}`);
   redirect(`/welcome/find?query=${query}`);
 }
