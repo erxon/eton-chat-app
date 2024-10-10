@@ -41,7 +41,8 @@ export default function UserCard({
     setLoading(true);
     try {
       // activate the channel
-      await activateChannel(`${userToAccept}-${currentLoggedInUser}`);
+      await activateChannel(currentLoggedInUser, userToAccept);
+
       // accept contact request
       await contactRequestAccepted(userToAccept, currentLoggedInUser, query);
     } catch (error) {

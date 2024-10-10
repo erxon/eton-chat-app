@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { fetchUser, fetchUserByEmail } from "../user/data";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { addNewChat, editChannel } from "../database/channel-db";
 
 //Message Interface
 
@@ -34,3 +35,22 @@ export async function findUser(term: string) {
     throw new Error(`${error}`);
   }
 }
+
+export async function sendChat(
+  message: string,
+  from: string,
+  channelId: string
+) {
+  //get the chat
+  try {
+    //save the chat to chat collection
+    const chat = await insert({message : message, from : from});
+    await addNewChat(chat, channelId);
+
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+  }
+}
+

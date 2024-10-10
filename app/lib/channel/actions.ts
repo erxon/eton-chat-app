@@ -1,10 +1,10 @@
-'use server';
+"use server";
 
 import { editChannel } from "../database/channel-db";
 
-export async function activateChannel(channelName: string) {
+export async function activateChannel(userID: string, userToAccept: string) {
   try {
-    await editChannel({ status: "active" }, channelName);
+    await editChannel(userID, userToAccept, { status: "active" });
     return true;
   } catch (error) {
     if (error instanceof Error) {

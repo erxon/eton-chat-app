@@ -49,9 +49,34 @@ export async function deleteChannelByName(name: string) {
   }
 }
 
-export async function editChannel(update: Channel, name: string) {
+export async function editChannel(
+  userID: string,
+  contact: string,
+  update: Channel,
+) {
   try {
-    await Channel.findOneAndUpdate({ name: name }, update);
+    await Channel.findOneAndUpdate(
+      { $and: [{ members: userID }, { members: contact }] },
+      update
+    );
+    return true;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+  }
+}
+
+export async function addNewChat(chatId: string, channelId: string) {
+  try {
+    const channel = await Channel.findById(channelId);
+    const chats = channel.chat;
+    const addChat = [...chats, chatId];
+
+    await Channel.findByIdAndUpdate(channelId, {
+      chat: addChat,
+    });
+
     return true;
   } catch (error) {
     if (error instanceof Error) {

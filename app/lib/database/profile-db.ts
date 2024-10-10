@@ -20,14 +20,19 @@ export async function createProfile(email: string) {
 //Add Contact to each user
 export async function addContacts(inviter: string, accepter: string) {
   try {
-    const addToInviter = await User.findById(inviter);
-    const inviterProfile = await Profile.findOne({email: addToInviter.email})
-    inviterProfile.contacts?.push(accepter);
-    await inviterProfile.save();
+    console.log(inviter, accepter);
 
+    const addToInviter = await User.findById(inviter);
     const addToAccepter = await User.findById(accepter);
-    const accepterProfile = await Profile.findOne({email: addToAccepter.email})
+
+    const inviterProfile = await Profile.findOne({email: addToInviter.email});
+    inviterProfile.contacts?.push(accepter);
+
+    
+    const accepterProfile = await Profile.findOne({email: addToAccepter.email});
     accepterProfile.contacts?.push(inviter);
+
+    await inviterProfile.save();
     await accepterProfile.save();
 
     return true;
@@ -41,7 +46,8 @@ export async function addContacts(inviter: string, accepter: string) {
 //Remove Contact
 export async function removeContact(userID: string, contact: string) {
   try {
-    const profile = await Profile.findOne({ userId: userID });
+    const user = await User.findById(userID)
+    const profile = await Profile.findOne({ email: user.email });
     const index = profile?.contacts.indexOf(contact);
 
     if (index > -1) {

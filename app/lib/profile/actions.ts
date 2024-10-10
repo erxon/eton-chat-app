@@ -27,7 +27,7 @@ export async function inactivateChannel(userID: string, contact: string) {
   try {
     const channel = await fetchChannelByMembers(userID, contact);
     if (channel) {
-      await editChannel({ status: "inactive" }, channel?.name);
+      await editChannel(userID, contact, { status: "inactive" });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -60,7 +60,7 @@ export async function removeFromContact(
       throw new Error(error.message);
     }
   }
-  
+
   revalidatePath(`/welcome/find?query=${query}`);
   redirect(`/welcome/find?query=${query}`);
 }

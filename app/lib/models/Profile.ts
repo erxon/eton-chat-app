@@ -13,7 +13,7 @@ export interface Profiles extends mongoose.Document {
 }
 
 const profileSchema = new mongoose.Schema<Profiles>({
-  userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   email: String,
   address: String,
   about: String,
@@ -24,7 +24,12 @@ const profileSchema = new mongoose.Schema<Profiles>({
     type: String,
     enum: ["Male", "Female", "none"],
   },
-  contacts: { type: [mongoose.Schema.Types.ObjectId], ref: "User" },
+  contacts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 export default mongoose.models.Profile ||

@@ -21,13 +21,12 @@ const channelSchema = new mongoose.Schema<Channels>({
     type: String,
     enum: ["pending", "active", "inactive"],
   },
-  chat: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Chat",
-  },
+  chat: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
   dateCreated: Date,
   dateModified: Date,
 });
 
-export default mongoose.models.Channel ||
-  mongoose.model<Channels>("Channel", channelSchema);
+const Channel =
+  mongoose.models.Channel || mongoose.model<Channels>("Channel", channelSchema);
+
+export default Channel;

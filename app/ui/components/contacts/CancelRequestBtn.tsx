@@ -37,7 +37,7 @@ export default function CancelRequestBtn({
               disabled={disabled}
               onClick={async () => {
                 setDisabled(true);
-                await deleteChannel(`${currentUserID}-${otherUserID}`, query);
+                await deleteChannel(currentUserID, otherUserID, query);
               }}
             >
               Yes

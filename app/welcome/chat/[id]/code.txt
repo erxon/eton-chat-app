@@ -1,0 +1,31 @@
+
+import ChatLogs from "@/app/ui/chat/ChatLogs";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { addChat } from "@/app/lib/chat/actions";
+
+<div className="col-span-2 mx-10">
+          <div className="bg-cyan-500 text-white p-3 rounded-lg">
+            <p className="font-semibold">John Doe</p>
+            <p className="text-sm">Active</p>
+          </div>
+          {/* Chat Logs */}
+          <form action={addChat}>
+            <div className="flex gap-1 items-center mt-5">
+              <input
+                className="p-3 rounded-full grow outline outline-1 outline-neutral-500 focus:outline-cyan-500"
+                placeholder="Type your message here..."
+                name="message"
+              />
+              <button
+                type="submit"
+                className="p-2 rounded-full bg-cyan-500 font-semibold text-sm text-white flex items-center gap-1"
+              >
+                Send
+                <PaperAirplaneIcon className="w-4 h-4" />
+              </button>
+            </div>
+          </form>
+          {/* {sendMessageError && (
+            <p className="text-red-400 mt-1">{sendMessageError}</p>
+          )} */}
+        </div>

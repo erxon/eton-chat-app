@@ -25,7 +25,9 @@ export async function fetchChannels(userID: string) {
 
 export async function fetchChannelByMembers(member1: string, member2: string) {
   try {
-    const channel = await Channel.findOne({ members: [member1, member2] });
+    const channel = await Channel.findOne({
+      $and: [{ members: member1 }, { members: member2 }],
+    }).populate("chat");
     return channel;
   } catch (error) {
     if (error instanceof Error) {
