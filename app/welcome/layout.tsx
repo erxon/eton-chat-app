@@ -18,7 +18,7 @@ export default async function Layout({
       {/* Header */}
       <TopNavigation avatar={user?.image} userId={user?.id} />
       {/* Side navigation */}
-      <div className="px-12 py-5">{children}</div>
+      <div className="px-12 py-5 screen-height bg-neutral-50">{children}</div>
     </section>
   );
 }

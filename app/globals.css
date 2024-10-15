@@ -15,4 +15,19 @@
   
 }
 
+.screen-height {
+  height: calc(100vh - 100px);
+}
 
+.chat-log-container {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 24px 14px 24px 14px;
+  margin-bottom: 15px;
+}
+
+.chat-page {
+  height: calc(100% - 40px)
+}

@@ -1,41 +1,19 @@
 import dbConnect from "../db-connect";
-import Chat from "../models/Chat";
+import Channel from "../models/Channel";
 
 interface Message {
   from: string;
   message: string;
 }
 
-export async function insert(message: Message) {
+export async function insert(message: Message, channelId: string) {
   try {
-    const newMessage = new Chat({ ...message, dateCreated: new Date() });
-    const data = await newMessage.save();
-    return data.id;
-
+    const channel = await Channel.findById(channelId);
+    const chats = channel.chat;
+    chats.push({ ...message, dateCreated: new Date() });
+    channel.chat = chats;
+    await channel.save();
   } catch (error) {
     throw new Error(`${error}`);
-  }
-}
-
-export async function getAllChats() {
-  try {
-    await dbConnect();
-    const chats = await Chat.find();
-    
-    return chats;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-}
-
-export async function getChat(chatId : string) {
-  try {
-    const chat = await Chat.findById(chatId);
-    return chat;
-
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
   }
 }

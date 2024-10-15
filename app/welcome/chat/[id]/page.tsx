@@ -9,6 +9,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   //Adding new chat
   //Real-time update of the chat logs
   //Show the user is typing
+
   const session = await auth();
   const email = session?.user?.email;
   const user = await fetchUserByEmail(email);
@@ -16,11 +17,11 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      {userId && (
+      <div>
         <Suspense fallback={<div>Loading...</div>}>
           <ChatLogs contact={params.id} user={userId} />
         </Suspense>
-      )}
+      </div>
     </>
   );
 }

@@ -17,7 +17,7 @@ export default async function ContactCardMessage({
   return (
       <div
         className={clsx(
-          "p-3 rounded mb-3 flex cursor-pointer w-[75%]",
+          "p-3 mb-3 flex cursor-pointer w-full outline outline-1 outline-gray-300",
           active ? "bg-neutral-100" : "hover:bg-neutral-100"
         )}
       >

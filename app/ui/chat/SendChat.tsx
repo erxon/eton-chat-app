@@ -23,20 +23,20 @@ export default function SendChat({
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 px-8">
       <input
         name="message"
         type="text"
         placeholder="Type your message here..."
-        className="p-3 rounded-full w-full"
+        className="p-3 rounded-full w-full outline outline-1 outline-neutral-500 text-sm"
         value={message}
         onChange={(event) => setMessage(event.target.value)}
       />
       <button
         onClick={handleSend}
-        className="px-3 py-2 rounded-lg bg-cyan-500 transition hover:bg-cyan-600"
+        className=""
       >
-        <PaperAirplaneIcon className="w-6 h-6 text-white" />
+        <PaperAirplaneIcon className="w-6 h-6 text-cyan-500" />
       </button>
     </div>
   );

@@ -17,5 +17,4 @@ const chatSchema = new mongoose.Schema<Chats>({
   dateModified: Date,
 });
 
-export default mongoose.models.Chat ||
-  mongoose.model<Chats>("Chat", chatSchema);
+export default chatSchema;

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import chatSchema from "./Chat";
 
 export interface Channels extends mongoose.Document {
   name: mongoose.Schema.Types.String;
@@ -21,7 +22,7 @@ const channelSchema = new mongoose.Schema<Channels>({
     type: String,
     enum: ["pending", "active", "inactive"],
   },
-  chat: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
+  chat: [chatSchema],
   dateCreated: Date,
   dateModified: Date,
 });

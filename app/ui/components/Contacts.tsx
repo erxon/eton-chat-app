@@ -8,19 +8,22 @@ export default async function Contacts({
   email: string | null | undefined;
 }) {
   const contacts = await fetchContacts(email);
+  
   return (
     <>
-      {contacts &&
-        contacts.map((contact: string) => {
-          return (
-            <Link
-              key={contact.toString()}
-              href={`/welcome/chat/${contact.toString()}`}
-            >
-              <ContactCardMessage id={contact.toString()} active={false} />
-            </Link>
-          );
-        })}
+      <div className="">
+        {contacts &&
+          contacts.map((contact : string) => {
+            return (
+              <Link
+                key={contact.toString()}
+                href={`/welcome/chat/${contact.toString()}`}
+              >
+                <ContactCardMessage id={contact.toString()} active={false} />
+              </Link>
+            );
+          })}
+      </div>
     </>
   );
 }
