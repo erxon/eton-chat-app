@@ -1,13 +1,13 @@
 "use client";
 
-import FileUpload from "./components/FileUpload";
-import TextField from "./components/TextField";
-import PasswordField from "./components/PasswordField";
+import FileUpload from "../components/FileUpload";
+import TextField from "../components/TextField";
+import PasswordField from "../components/PasswordField";
 import { useFormState, useFormStatus } from "react-dom";
-import { updateUser } from "../lib/user/actions";
+import { updateUser } from "@/app/lib/user/actions";
 import { v4 as uuidv4 } from "uuid";
-import Loading from "./components/Loading";
-import DatePicker from "./components/DatePicker";
+import Loading from "../components/Loading";
+import DatePicker from "../components/DatePicker";
 import { useState } from "react";
 
 interface EditProfileFormProps {

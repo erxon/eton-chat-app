@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { getAll } from "../lib/database/user-db";
-import { User } from "../lib/types";
+import { getAll } from "@/app/lib/database/user-db";
+import { User } from "@/app/lib/types";
 import { UserIcon } from "@heroicons/react/20/solid";
 
 export default async function Users({ query }: { query: string }) {

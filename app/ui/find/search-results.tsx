@@ -1,10 +1,10 @@
-import { findUser } from "../lib/chat/actions";
-import { fetchUserByEmail } from "../lib/user/data";
-import UserCard from "./find/user-card";
+import { findUser } from "@/app/lib/chat/actions";
+import { fetchUserByEmail } from "@/app/lib/user/data";
+import UserCard from "./user-card";
 import { auth } from "@/auth";
-import { fetchChannels } from "../lib/channel/data";
-import { Channel } from "../lib/channel/data";
-import { fetchContacts } from "../lib/profile/data";
+import { fetchChannels } from "@/app/lib/channel/data";
+import { Channel } from "@/app/lib/channel/data";
+import { fetchContacts } from "@/app/lib/profile/data";
 
 interface User {
   name: string;

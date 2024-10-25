@@ -4,7 +4,9 @@ import dbConnect from "../db-connect";
 import { unstable_noStore as noStore } from "next/cache";
 
 export async function fetchUserById(id: string) {
+  noStore();
   try {
+    
     const user = await User.findById(id);
     return user;
   } catch (error) {

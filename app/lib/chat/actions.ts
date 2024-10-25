@@ -23,17 +23,19 @@ export async function findUser(term: string) {
 export async function sendChat(
   message: string,
   from: string,
-  channelId: string
+  channelId: string,
+  contact: string
 ) {
   //get the chat
   try {
     //save the chat to chat collection
     await insert({message : message, from : from }, channelId);
-    return true;
+    
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
     }
   }
+  revalidatePath(`/welcome/chat`);
 }
 

@@ -1,14 +1,16 @@
 // For Refactor
-import ContactCardMessage from "@/app/ui/components/ContactCardMessage";
+import ContactCardMessage from "@/app/ui/contacts/ContactCardMessage";
 import { Suspense, useState } from "react";
-import Contacts from "@/app/ui/components/Contacts";
+import Contacts from "@/app/ui/contacts/Contacts";
 import { auth } from "@/auth";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  
   //Todo:
   //[done] Create a temporary data for chat logs
   //[done] Send message
@@ -17,6 +19,8 @@ export default async function Layout({
   //[] Fetch the messages
   //[] Add Loading
 
+
+  
   const session = await auth();
   const email = session?.user?.email;
 

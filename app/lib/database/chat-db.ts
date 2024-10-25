@@ -12,6 +12,8 @@ export async function insert(message: Message, channelId: string) {
     const chats = channel.chat;
     chats.push({ ...message, dateCreated: new Date() });
     channel.chat = chats;
+    channel.dateModified = new Date();
+    
     await channel.save();
   } catch (error) {
     throw new Error(`${error}`);

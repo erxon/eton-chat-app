@@ -1,37 +1,65 @@
-import { fetchChannelByMembers } from "@/app/lib/channel/data";
-import SendChat from "./SendChat";
+"use client";
+
+import { ChatInterface, fetchChat } from "@/app/lib/chat/data";
+import { useChannel } from "ably/react";
+import { useCallback, useEffect, useState } from "react";
 import Logs from "./Logs";
-import { fetchUserById } from "@/app/lib/user/data";
+import SendChat from "./SendChat";
+import { useMessages } from "@ably/chat/react";
 
-export default async function ChatLogs({
-  contact,
+export default function ChatLogs({
+  channelId,
   user,
+  currentUserImage,
+  userFromContactImage,
+  contact,
+  contactName,
 }: {
-  contact: string;
+  channelId: string;
   user: string;
+  currentUserImage: string;
+  userFromContactImage: string;
+  contact: string;
+  contactName: string;
 }) {
-  
-  const [channel, currentUser, userFromContact] = await Promise.all([
-    fetchChannelByMembers(contact, user),
-    fetchUserById(user),
-    fetchUserById(contact),
-  ]);
+  const [messages, setMessages] = useState<Array<ChatInterface>>([]);
 
-  const chat = Array.isArray(channel?.chat) ? channel.chat : [] ;
-  const currentUserImage = currentUser.image;
-  const userFromContactImage = userFromContact.image;
+  const getChats = useCallback(async () => {
+    const chats = await fetchChat(channelId);
+    const parsedChats = chats ? JSON.parse(chats) : [];
+
+    setMessages([...parsedChats.reverse()]);
+  }, [channelId]);
+
+  useEffect(() => {
+    getChats();
+  }, [getChats]);
   
+  useMessages({
+    listener: (message) => {
+      setMessages((prev) => {
+        return [
+          { message: message.message.text, from: message.message.clientId },
+          ...prev,
+        ];
+      });
+    },
+  });
+
   return (
-    <div className="box-border my-2 rounded-lg h-[500px]">
-      <div className="chat-log-container">
-        <Logs
-          chat={chat}
-          userId={user}
-          currentUserImage={currentUserImage}
-          userFromContactImage={userFromContactImage}
-        />
-      </div>
-      <SendChat from={user.toString()} channelId={channel.id.toString()} />
-    </div>
+    <>
+      <Logs
+        chat={messages}
+        userId={user}
+        currentUserImage={currentUserImage}
+        userFromContactImage={userFromContactImage}
+      />
+      <SendChat
+        from={user.toString()}
+        channelId={channelId}
+        contact={contact}
+        contactName={contactName}
+      />
+    </>
   );
 }

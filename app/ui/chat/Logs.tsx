@@ -1,7 +1,10 @@
+"use client";
 
 import { UserIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import Image from "next/image";
+import { ChatInterface } from "@/app/lib/chat/data";
+import { useEffect, useRef } from "react";
 
 export default function Logs({
   chat,
@@ -9,34 +12,32 @@ export default function Logs({
   currentUserImage,
   userFromContactImage,
 }: {
-  chat: [];
+  chat: ChatInterface[];
   userId: string;
   currentUserImage: string;
   userFromContactImage: string;
 }) {
+  let messageEnd = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div>
-      {chat.map(
-        (item: {
-          id: string;
-          message?: string;
-          from?: string;
-          dateCreated?: Date;
-        }) => {
-          const isFromCurrentUser = userId === item.from?.toString();
-          
+    <div className="box-border my-2 rounded-lg h-[500px]">
+      <div className="chat-log-container" ref={messageEnd}>
+        {chat.map((item: ChatInterface) => {
+          const isFromCurrentUser = userId === item.from;
+
           return (
             <div
-              key={item.id.toString()}
-              className={clsx("flex flex-col ml-2 mr-2 my-6", {
+              key={item.id}
+              className={clsx("flex flex-col ml-2 mr-2 my-3", {
                 "items-end": isFromCurrentUser,
               })}
             >
               <div>
                 <div className="flex gap-2">
                   {isFromCurrentUser && (
-                    <p className="text-right w-full pr-3 text-sm text-neutral-500">You</p>
+                    <p className="text-right w-full pr-3 text-sm text-neutral-500">
+                      You
+                    </p>
                   )}
                   <div className="w-[32px]"></div>
                 </div>
@@ -46,10 +47,13 @@ export default function Logs({
                     <Avatar address={userFromContactImage} />
                   )}
                   <div
-                    className={clsx("p-3 rounded-full w-fit text-sm font-medium", {
-                      "bg-blue-500  text-white": isFromCurrentUser,
-                      "bg-neutral-200": !isFromCurrentUser,
-                    })}
+                    className={clsx(
+                      "p-3 rounded-full w-fit text-sm font-medium",
+                      {
+                        "bg-blue-500  text-white": isFromCurrentUser,
+                        "bg-neutral-200": !isFromCurrentUser,
+                      }
+                    )}
                   >
                     <p>{item.message}</p>
                   </div>
@@ -58,8 +62,8 @@ export default function Logs({
               </div>
             </div>
           );
-        }
-      )}
+        })}
+      </div>
     </div>
   );
 }

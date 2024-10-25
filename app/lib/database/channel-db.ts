@@ -22,6 +22,7 @@ export async function create(inviter: String, accepter: String) {
       requestedTo: accepter,
       status: "pending",
       dateCreated: new Date(),
+      dateModified: new Date()
     });
 
     await newChannel.save();

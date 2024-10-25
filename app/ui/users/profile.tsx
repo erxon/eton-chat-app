@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { fetchUserById } from "../lib/user/data";
-import { fetchProfile } from "../lib/profile/data";
+import { fetchUserById } from "@/app/lib/user/data";
+import { fetchProfile } from "@/app/lib/profile/data";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { auth } from "@/auth";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import NotFound from "../welcome/profile/[id]/not-found";
+import NotFound from "../../welcome/profile/[id]/not-found";
 import { PencilIcon } from "@heroicons/react/24/solid";
 
 export default async function Profile({ id }: { id: string }) {
