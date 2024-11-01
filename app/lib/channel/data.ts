@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 import Channel from "../models/Channel";
 import { unstable_noStore as noStore } from "next/cache";
@@ -48,6 +48,17 @@ export async function fetchUserChannels(userId?: string | null) {
     });
 
     return channels;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Something went wrong");
+    }
+  }
+}
+
+export async function fetchChannelById(channelId: string) {
+  try {
+    const channel = await Channel.findById(channelId);
+    return channel;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error("Something went wrong");

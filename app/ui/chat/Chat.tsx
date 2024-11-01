@@ -1,27 +1,27 @@
-import { fetchChannelByMembers } from "@/app/lib/channel/data";
+import {
+  fetchChannelById,
+  fetchChannelByMembers,
+} from "@/app/lib/channel/data";
 import { fetchUserById } from "@/app/lib/user/data";
 import dynamic from "next/dynamic";
-
-
 
 const AblyConfig = dynamic(() => import("./AblyConfig"), {
   ssr: false,
 });
 
 export default async function ChatLogs({
-  contact,
+  channelId,
   user,
 }: {
-  contact: string;
+  channelId: string;
   user: string;
 }) {
-  
-
-  const [channel, currentUser, userFromContact] = await Promise.all([
-    fetchChannelByMembers(contact, user),
-    fetchUserById(user),
-    fetchUserById(contact),
-  ]);
+  const channel = await fetchChannelById(channelId);
+  const currentUser = await fetchUserById(user);
+  const contactId = channel.members.filter((member: string) => {
+    return member.toString() !== currentUser.id.toString();
+  });
+  const userFromContact = await fetchUserById(contactId);
 
   const chat = Array.isArray(channel?.chat) ? channel.chat : [];
   const currentUserImage = currentUser.image;
@@ -36,7 +36,7 @@ export default async function ChatLogs({
       user={user}
       currentUserImage={currentUserImage}
       userFromContactImage={userFromContactImage}
-      contact={contact}
+      contact={contactId[0]}
       contactName={contactName}
     />
   );

@@ -24,12 +24,14 @@ export async function sendChat(
   message: string,
   from: string,
   channelId: string,
-  contact: string
+  contact: string,
+  isContactPresent: boolean
+
 ) {
   //get the chat
   try {
     //save the chat to chat collection
-    await insert({message : message, from : from }, channelId);
+    await insert({message : message, from : from, to: contact }, channelId, isContactPresent);
     
   } catch (error) {
     if (error instanceof Error) {

@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: { channel: RealtimeChan
     <>
       <div>
         <Suspense fallback={<div>Loading...</div>}>
-          <Chat contact={params.id} user={userId} />
+          <Chat channelId={params.id} user={userId} />
         </Suspense>
       </div>
     </>

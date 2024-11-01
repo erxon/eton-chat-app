@@ -8,7 +8,7 @@ export interface Channels extends mongoose.Document {
   requestedTo: mongoose.Schema.Types.ObjectId;
   contact: mongoose.Schema.Types.ObjectId;
   status: String;
-  chat: [mongoose.Schema.Types.ObjectId];
+  chat: [];
   dateCreated: Date;
   dateModified: Date;
 }

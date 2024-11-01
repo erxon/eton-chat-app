@@ -22,7 +22,7 @@ export default async function Contacts({
               : channel.members[0];
 
           return (
-            <Link key={channel.id} href={`/welcome/chat/${contact}`}>
+            <Link key={channel.id} href={`/welcome/chat/${channel.id}`}>
               <ContactCardMessage
                 currentUser={currentUser?.id}
                 chat={channel.chat}

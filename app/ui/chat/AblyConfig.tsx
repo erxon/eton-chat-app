@@ -1,8 +1,7 @@
 "use client";
 
 import * as Ably from "ably";
-import { ChatClient, RoomOptionsDefaults } from "@ably/chat";
-import { ChatClientProvider, ChatRoomProvider } from "@ably/chat/react";
+import { AblyProvider, ChannelProvider } from "ably/react";
 import ChatLogs from "./ChatLogs";
 
 export default function AblyeConfig({
@@ -26,11 +25,9 @@ export default function AblyeConfig({
     authUrl: "http://localhost:3000/api/chat",
   });
 
-  const chatClient = new ChatClient(client);
-
   return (
-    <ChatClientProvider client={chatClient}>
-      <ChatRoomProvider id={channelId} options={RoomOptionsDefaults}>
+    <AblyProvider client={client}>
+      <ChannelProvider channelName={channelId}>
         <ChatLogs
           channelId={channelId}
           user={user}
@@ -39,7 +36,7 @@ export default function AblyeConfig({
           contact={contact}
           contactName={contactName}
         />
-      </ChatRoomProvider>
-    </ChatClientProvider>
+      </ChannelProvider>
+    </AblyProvider>
   );
 }

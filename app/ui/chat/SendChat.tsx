@@ -1,38 +1,42 @@
 "use client";
 
 import { sendChat } from "@/app/lib/chat/actions";
-import { TypingEvent } from "@ably/chat";
-import { useMessages, useTyping } from "@ably/chat/react";
+import { useChannel, usePresence } from "ably/react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { ChatBubbleLeftEllipsisIcon } from "@heroicons/react/24/solid";
+import { PresenceMessage } from "ably";
+
 
 export default function SendChat({
   from,
   channelId,
   contact,
   contactName,
+  presenceData
 }: {
   from: string;
   channelId: string;
   contact: string;
   contactName: string;
+  presenceData: PresenceMessage[]
 }) {
   const [message, setMessage] = useState<string>("");
 
-  const { start, stop, currentlyTyping } = useTyping({
-    listener: (typingEvent: TypingEvent) => {
-      console.log("Typing event received: ", typingEvent);
-    },
+  //send message to the channel
+  const { publish } = useChannel(channelId);
+
+  //is contact present in the channel?
+  const isContactPresent = !!presenceData.find((member) => {
+    return member.clientId === contact
   });
 
-  const { send } = useMessages();
-
+  //send message
   async function handleSend() {
     try {
-      await sendChat(message, from, channelId, contact);
+      await sendChat(message, from, channelId, contact, isContactPresent);
+      publish("new-chat", {text: message})
 
-      send({ text: message });
       setMessage("");
 
       stop();
@@ -40,18 +44,13 @@ export default function SendChat({
       console.log(error);
     }
   }
-
-  function handleStartTyping() {
-    start();
-  }
+  
 
   return (
     <div className="px-8">
-      <div className="h-6">
-        {currentlyTyping.has(contact) && (
-          <TypingState contactName={contactName} />
-        )}
-      </div>
+      {/* <div className="h-6">
+        <TypingState contactName={contactName} />
+      </div> */}
       <div className="flex gap-2">
         <input
           name="message"
@@ -59,7 +58,6 @@ export default function SendChat({
           placeholder="Type your message here..."
           className="p-3 rounded-full w-full outline outline-1 outline-neutral-500 text-sm"
           value={message}
-          onClick={handleStartTyping}
           onChange={(event) => setMessage(event.target.value)}
         />
         <button onClick={handleSend} className="">
