@@ -1,6 +1,4 @@
 import React from "react";
-import Navigation from "../ui/users/navigation";
-import MobileNav from "../ui/components/MobileNav";
 import TopNavigation from "../ui/navigation/top-navigation";
 import { auth } from "@/auth";
 import { fetchUserByEmail } from "../lib/user/data";

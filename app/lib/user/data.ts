@@ -1,12 +1,22 @@
+"use server";
+
 import User from "../models/User";
 import Account from "../models/Account";
 import dbConnect from "../db-connect";
 import { unstable_noStore as noStore } from "next/cache";
 
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string | undefined | null;
+  name: string;
+  image: string;
+};
+
 export async function fetchUserById(id: string) {
   noStore();
   try {
-    
     const user = await User.findById(id);
     return user;
   } catch (error) {
@@ -19,6 +29,7 @@ export async function fetchUserByEmail(email: string | undefined | null) {
     noStore();
     await dbConnect();
     const user = await User.findOne({ email: email });
+
     return {
       id: user.id,
       firstName: user.firstName,

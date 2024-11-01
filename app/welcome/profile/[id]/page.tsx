@@ -1,5 +1,5 @@
 import Loading from "@/app/ui/components/Loading";
-import Profile from "@/app/ui/profile";
+import Profile from "@/app/ui/users/profile";
 import { Suspense } from "react";
 
 export default async function Page({ params }: { params: { id: string } }) {

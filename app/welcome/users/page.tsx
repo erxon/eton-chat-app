@@ -1,6 +1,6 @@
-import Users from "@/app/ui/users";
+import Users from "@/app/ui/users/users";
 import { Suspense } from "react";
-import Search from "@/app/ui/search";
+import Search from "@/app/ui/find/search";
 
 export default async function Page({searchParams} : {
   searchParams?: {

@@ -1,4 +1,5 @@
-import dbConnect from "../db-connect";
+'use server';
+
 import Channel from "../models/Channel";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -40,11 +41,12 @@ export async function fetchChannelByMembers(member1: string, member2: string) {
   }
 }
 
-export async function fetchUserChannels(userId: string) {
+export async function fetchUserChannels(userId?: string | null) {
   try {
-    const channels = await Channel.find({ members: userId }).sort({
+    let channels = await Channel.find({ members: userId }).sort({
       dateModified: -1,
     });
+
     return channels;
   } catch (error) {
     if (error instanceof Error) {

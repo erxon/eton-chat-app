@@ -1,3 +1,5 @@
+'use server';
+
 import dbConnect from "../db-connect";
 import Channel from "../models/Channel";
 

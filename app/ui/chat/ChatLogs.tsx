@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import Logs from "./Logs";
 import SendChat from "./SendChat";
 import { useMessages } from "@ably/chat/react";
+import { revalidatePath } from "next/cache";
 
 export default function ChatLogs({
   channelId,

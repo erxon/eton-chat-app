@@ -1,5 +1,5 @@
 import Search from "@/app/ui/components/Search";
-import Results from "@/app/ui/search-results";
+import Results from "@/app/ui/find/search-results";
 import { Suspense } from "react";
 import Loading from "@/app/ui/components/Loading";
 

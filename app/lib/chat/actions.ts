@@ -36,6 +36,5 @@ export async function sendChat(
       throw new Error(error.message);
     }
   }
-  revalidatePath(`/welcome/chat`);
 }
 

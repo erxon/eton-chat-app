@@ -20,7 +20,7 @@ export default function SendChat({
 }) {
   const [message, setMessage] = useState<string>("");
 
-  const { start, stop, currentlyTyping, error } = useTyping({
+  const { start, stop, currentlyTyping } = useTyping({
     listener: (typingEvent: TypingEvent) => {
       console.log("Typing event received: ", typingEvent);
     },
@@ -31,9 +31,10 @@ export default function SendChat({
   async function handleSend() {
     try {
       await sendChat(message, from, channelId, contact);
-      send({ text: message });
 
+      send({ text: message });
       setMessage("");
+
       stop();
     } catch (error) {
       console.log(error);

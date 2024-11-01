@@ -30,6 +30,7 @@
     "next-auth": "^5.0.0-beta.19",
     "react": "^18",
     "react-dom": "^18",
+    "realm-web": "^2.0.1",
     "tailwind-datepicker-react": "^1.4.3",
     "use-debounce": "^10.0.1",
     "uuid": "^10.0.0",

@@ -1,26 +1,13 @@
 // For Refactor
-import ContactCardMessage from "@/app/ui/contacts/ContactCardMessage";
 import { Suspense, useState } from "react";
 import Contacts from "@/app/ui/contacts/Contacts";
 import { auth } from "@/auth";
-import { unstable_noStore as noStore } from "next/cache";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  
-  //Todo:
-  //[done] Create a temporary data for chat logs
-  //[done] Send message
-  //[done] Fix Chat Log
-  //[] Insert the message to Database
-  //[] Fetch the messages
-  //[] Add Loading
-
-
-  
   const session = await auth();
   const email = session?.user?.email;
 
@@ -36,7 +23,7 @@ export default async function Layout({
               </Suspense>
             </div>
           </div>
-          <div className="col-span-2 mx-10 bg-white rounded-lg shadow">{children}</div>
+          <div className="col-span-2 mx-5 bg-white rounded-lg shadow">{children}</div>
         </div>
       </div>
     </>

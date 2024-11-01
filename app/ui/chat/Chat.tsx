@@ -14,8 +14,9 @@ export default async function ChatLogs({
 }: {
   contact: string;
   user: string;
-}) {  
+}) {
   
+
   const [channel, currentUser, userFromContact] = await Promise.all([
     fetchChannelByMembers(contact, user),
     fetchUserById(user),
