@@ -3,8 +3,10 @@
 import * as Ably from "ably";
 import { AblyProvider, ChannelProvider } from "ably/react";
 import ChatLogs from "./ChatLogs";
+import AblyConfig from "../components/utilties/AblyConfig";
 
-export default function AblyeConfig({
+
+export default function AblyConfigForChat({
   chats,
   channelId,
   user,
@@ -21,12 +23,9 @@ export default function AblyeConfig({
   contact: string;
   contactName: string;
 }) {
-  const client = new Ably.Realtime({
-    authUrl: "http://localhost:3000/api/chat",
-  });
 
   return (
-    <AblyProvider client={client}>
+    <AblyConfig>
       <ChannelProvider channelName={channelId}>
         <ChatLogs
           channelId={channelId}
@@ -37,6 +36,6 @@ export default function AblyeConfig({
           contactName={contactName}
         />
       </ChannelProvider>
-    </AblyProvider>
+    </AblyConfig>
   );
 }

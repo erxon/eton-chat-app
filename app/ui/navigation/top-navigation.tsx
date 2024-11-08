@@ -2,7 +2,6 @@
 
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { signOutTrigger } from "../../lib/user/actions";
-import { auth } from "@/auth";
 import Link from "next/link";
 import NavLink from "../components/NavLink";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
@@ -10,22 +9,12 @@ import { UsersIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { BellIcon } from "@heroicons/react/24/solid";
-import React, { useRef, useState, useEffect, ReactEventHandler } from "react";
+import React, { useState } from "react";
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/outline";
-import { useAtlasApp } from "../hooks/useAtlasApp";
-import * as Realm from "realm-web"
 
 export default function TopNavigation({ avatar, userId }: { avatar: string, userId: string }) {
-  const app = useAtlasApp();
   const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    if (app && !app.currentUser) {
-      const anonymousUser = Realm.Credentials.anonymous();
-      app.logIn(anonymousUser);
-    }
-  }, [app, app?.currentUser]);
 
   return (
     <div className="h-18 flex items-center px-10 lg:shadow-sm">

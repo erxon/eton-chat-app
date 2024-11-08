@@ -1,5 +1,5 @@
 import React from "react";
-import EditProfileForm from "@/app/ui/edit-profile";
+import EditProfileForm from "@/app/ui/users/edit-profile";
 import { auth } from "@/auth";
 import { fetchAccount, fetchUserByEmail } from "@/app/lib/user/data";
 import { fetchProfile } from "@/app/lib/profile/data";

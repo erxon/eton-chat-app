@@ -15,7 +15,6 @@ export type User = {
 };
 
 export async function fetchUserById(id: string) {
-  noStore();
   try {
     const user = await User.findById(id);
     return user;
@@ -26,8 +25,6 @@ export async function fetchUserById(id: string) {
 
 export async function fetchUserByEmail(email: string | undefined | null) {
   try {
-    noStore();
-    await dbConnect();
     const user = await User.findOne({ email: email });
 
     return {
@@ -39,7 +36,7 @@ export async function fetchUserByEmail(email: string | undefined | null) {
       image: user.image,
     };
   } catch (error) {
-    return null;
+    throw new Error("Something went wrong");
   }
 }
 

@@ -21,6 +21,7 @@ export default function SendChat({
   contactName: string;
   presenceData: PresenceMessage[]
 }) {
+  
   const [message, setMessage] = useState<string>("");
 
   //send message to the channel
@@ -37,9 +38,8 @@ export default function SendChat({
       await sendChat(message, from, channelId, contact, isContactPresent);
       publish("new-chat", {text: message})
 
-      setMessage("");
 
-      stop();
+      setMessage("");
     } catch (error) {
       console.log(error);
     }

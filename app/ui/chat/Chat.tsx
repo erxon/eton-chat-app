@@ -5,7 +5,7 @@ import {
 import { fetchUserById } from "@/app/lib/user/data";
 import dynamic from "next/dynamic";
 
-const AblyConfig = dynamic(() => import("./AblyConfig"), {
+const AblyConfigForChat = dynamic(() => import("./AblyConfigForChat"), {
   ssr: false,
 });
 
@@ -30,7 +30,7 @@ export default async function ChatLogs({
   const chats = JSON.stringify(chat);
 
   return (
-    <AblyConfig
+    <AblyConfigForChat
       chats={chats}
       channelId={channel.id}
       user={user}

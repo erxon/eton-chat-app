@@ -30,7 +30,7 @@ export default function ChatLogs({
     const parsedChats = chats ? JSON.parse(chats) : [];
 
     setMessages(parsedChats.reverse());
-  }, [channelId]);
+  }, [channelId, user]);
 
 
   /*
@@ -55,7 +55,7 @@ export default function ChatLogs({
   //get the presence data 
   const {presenceData} = usePresenceListener(channelId);
 
-
+  
 
   useEffect(() => {
     getChats();

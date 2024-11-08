@@ -1,37 +1,16 @@
-import ContactCardMessage from "./ContactCardMessage";
-import Link from "next/link";
+import { auth } from "@/auth";
 import { fetchUserByEmail } from "@/app/lib/user/data";
-import { Channel, fetchUserChannels } from "@/app/lib/channel/data";
+import dynamic from "next/dynamic";
+import DisplayContacts from "./DisplayContacts";
 
-export default async function Contacts({
-  email,
-}: {
-  email: string | null | undefined;
-}) {
-  const currentUser = await fetchUserByEmail(email);
-  const channels = await fetchUserChannels(currentUser?.id);
 
-  return (
-    <div>
-      {channels &&
-        currentUser &&
-        channels.map((channel: Channel) => {
-          const contact =
-            channel.members[0].toString() === currentUser?.id
-              ? channel.members[1]
-              : channel.members[0];
+export default async function Contacts() {
+  const session = await auth();
+  const email = session?.user?.email;
+  const user = await fetchUserByEmail(email);
+  const userId = user?.id.toString();
 
-          return (
-            <Link key={channel.id} href={`/welcome/chat/${channel.id}`}>
-              <ContactCardMessage
-                currentUser={currentUser?.id}
-                chat={channel.chat}
-                id={contact}
-                active={false}
-              />
-            </Link>
-          );
-        })}
-    </div>
-  );
+  if (userId) {
+    return <DisplayContacts userId={userId} />;
+  }
 }

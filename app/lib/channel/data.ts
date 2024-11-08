@@ -41,17 +41,15 @@ export async function fetchChannelByMembers(member1: string, member2: string) {
   }
 }
 
-export async function fetchUserChannels(userId?: string | null) {
+export async function fetchUserChannels(userId: string | null) {
   try {
     let channels = await Channel.find({ members: userId }).sort({
-      dateModified: -1,
-    });
+      dateModified : -1
+    })
 
     return channels;
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error("Something went wrong");
-    }
+    throw new Error("Something went wrong.");
   }
 }
 

@@ -1,13 +1,12 @@
-import Image from "next/image";
+"use client";
+
 import clsx from "clsx";
-import { fetchUserById } from "@/app/lib/user/data";
-import Link from "next/link";
 import Avatar from "../components/Avatar";
 import CharacterAvatar from "../components/CharacterAvatar";
-import { fetchChannelByMembers } from "@/app/lib/channel/data";
 import { ChatInterface } from "@/app/lib/chat/data";
+import { useState, useEffect } from "react";
 
-export default async function ContactCardMessage({
+export default function ContactCardMessage({
   id,
   active = false,
   currentUser,
@@ -18,43 +17,58 @@ export default async function ContactCardMessage({
   currentUser: string;
   chat: ChatInterface[];
 }) {
-  const user = await fetchUserById(id);
-  let latestChat = chat.length > 0 ? chat[chat.length - 1] : {};
-  let isUnread = latestChat.state === "unread" && latestChat?.to?.toString() === currentUser?.toString();
+  const [user, setUser] = useState<any>(null);
 
-  return (
-    <div
-      className={clsx(
-        "p-3 flex cursor-pointer m-3 rounded-lg items-center",
-        active ? "bg-neutral-100" : "hover:bg-neutral-100"
-      )}
-    >
-      <div className="mr-2 relative">
-        {user.image ? (
-          <Avatar imageAddress={user.image} />
-        ) : (
-          <CharacterAvatar name={user.name} />
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`/api/users/${id}`);
+      const result = await response.json();
+      setUser(result.data)
+    };
+
+    fetchData();
+  }, [id]);
+
+  let latestChat = chat.length > 0 ? chat[chat.length - 1] : {};
+  let isUnread =
+    latestChat.state === "unread" &&
+    latestChat?.to?.toString() === currentUser?.toString();
+
+  if (user) {
+    return (
+      <div
+        className={clsx(
+          "p-3 flex cursor-pointer m-3 rounded-lg items-center",
+          active ? "bg-neutral-100" : "hover:bg-neutral-100"
         )}
-        {/* Active Indicator */}
-        <div className="absolute w-3 h-3 right-0 bottom-0 rounded-full bg-green-500"></div>
-      </div>
-      <div className="flex-1">
-        {/* Contact's name */}
-        <p className="font-semibold">{user?.name}</p>
-        {/* Recent message sent */}
-        <p
-          className={clsx(
-            isUnread
-              ? "text-black font-semibold text-sm"
-              : "text-sm text-neutral-500"
+      >
+        <div className="mr-2 relative">
+          {user.image ? (
+            <Avatar imageAddress={user.image} />
+          ) : (
+            <CharacterAvatar name={user.name} />
           )}
-        >
-          {latestChat && latestChat?.to?.toString() === currentUser.toString()
-            ? `You: ${latestChat.message}`
-            : latestChat.message}
-        </p>
+          {/* Active Indicator */}
+          <div className="absolute w-3 h-3 right-0 bottom-0 rounded-full bg-green-500"></div>
+        </div>
+        <div className="flex-1">
+          {/* Contact's name */}
+          <p className="font-semibold">{user?.name}</p>
+          {/* Recent message sent */}
+          <p
+            className={clsx(
+              isUnread
+                ? "text-black font-semibold text-sm"
+                : "text-sm text-neutral-500"
+            )}
+          >
+            {latestChat && latestChat?.from?.toString() === currentUser
+              ? `You: ${latestChat.message}`
+              : latestChat.message}
+          </p>
+        </div>
+        {isUnread && <div className="w-3 h-3 rounded-full bg-blue-500"></div>}
       </div>
-      {isUnread && <div className="w-3 h-3 rounded-full bg-blue-500"></div>}
-    </div>
-  );
+    );
+  }
 }

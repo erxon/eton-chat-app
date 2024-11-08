@@ -4,18 +4,7 @@ import { auth } from "@/auth";
 import { RealtimeChannel } from "ably";
 import { Suspense } from "react";
 
-export const fetchCache = 'force-no-store';
-
-
 export default async function Page({ params }: { params: { channel: RealtimeChannel, id: string } }) {
-  //Fetch the channel by members
-  //Display the chats
-  //Adding new chat
-  //Real-time update of the chat logs
-  //Show the user is typing
-
-  
-
   const session = await auth();
   const email = session?.user?.email;
   const user = await fetchUserByEmail(email);
