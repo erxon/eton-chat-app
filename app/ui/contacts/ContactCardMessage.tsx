@@ -4,14 +4,19 @@ import clsx from "clsx";
 import Avatar from "../components/Avatar";
 import CharacterAvatar from "../components/CharacterAvatar";
 import { ChatInterface } from "@/app/lib/chat/data";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { updateChat } from "@/app/lib/chat/actions";
 
 export default function ContactCardMessage({
+  currentChannelId,
+  channelId,
   id,
   active = false,
   currentUser,
   chat,
 }: {
+  currentChannelId: string;
+  channelId: string;
   id: string;
   active: boolean;
   currentUser: string;
@@ -19,20 +24,33 @@ export default function ContactCardMessage({
 }) {
   const [user, setUser] = useState<any>(null);
 
+  let latestChat = useMemo(() => {
+    return chat.length > 0 ? chat[chat.length - 1] : {};
+  }, [chat])
+
+  const [isUnread, setIsUnread] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`/api/users/${id}`);
       const result = await response.json();
-      setUser(result.data)
+      setUser(result.data);
     };
 
-    fetchData();
-  }, [id]);
+    if (latestChat) {
+      setIsUnread(
+        latestChat.state === "unread" &&
+          latestChat?.to?.toString() === currentUser?.toString()
+      );
+    }
 
-  let latestChat = chat.length > 0 ? chat[chat.length - 1] : {};
-  let isUnread =
-    latestChat.state === "unread" &&
-    latestChat?.to?.toString() === currentUser?.toString();
+    if (currentChannelId === channelId){
+      latestChat.state = "read";
+      setIsUnread(false);
+    }
+
+    fetchData();
+  }, [id, latestChat, currentUser, channelId, currentChannelId]);
 
   if (user) {
     return (

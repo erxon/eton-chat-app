@@ -1,6 +1,9 @@
 "use server";
 
+import { Channel as ChannelInterface } from "../channel/data";
+import { ChatInterface } from "./data";
 import { insert } from "../database/chat-db";
+import Channel from "../models/Channel";
 import { fetchUser, fetchUserByEmail } from "../user/data";
 import { revalidatePath } from "next/cache";
 
@@ -39,4 +42,34 @@ export async function sendChat(
   }
 
   revalidatePath("/welcome/chat");
+}
+
+export async function updateChat(
+  channelId: string,
+  chatId: string,
+  update: any
+) {
+  try {
+    const channel = await Channel.findById(channelId);
+
+    if (channel) {
+      const chat: any = channel.chat.find((item: ChatInterface) => {
+        return item.id === chatId;
+      });
+
+      if (chat) {
+        const updatedChat = { ...chat, ...update };
+        const filterChats: any = channel.chat.filter((item: ChatInterface) => {
+          return item.id !== chatId;
+        });
+        const pushUpdatedChat = filterChats.push(updatedChat);
+
+        channel.chat = pushUpdatedChat;
+        await channel.save();
+      }
+    }
+    return true;
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
 }

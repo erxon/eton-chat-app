@@ -6,10 +6,17 @@ import Link from "next/link";
 import { Channel, fetchUserChannels } from "@/app/lib/channel/data";
 import ChannelsListener from "./ChannelsListener";
 import { fetchChannels } from "../fetch/channels";
+import { realtime } from "@/app/lib/utilities/ably-realtime";
+import { useParams } from "next/navigation";
 
 export default function DisplayContacts({ userId }: { userId: string }) {
   const [channels, setChannels] = useState<Array<Channel>>([]);
+  const {id} = useParams();
+  const currentChannelId = id.toString();
 
+  realtime.connection.on('connected', (stateChange) => {
+    console.log(stateChange);
+  })
   const fetchData = useCallback(async () => {
     const result = await fetchChannels(userId);
     setChannels(result.data);
@@ -23,7 +30,7 @@ export default function DisplayContacts({ userId }: { userId: string }) {
   if (channels.length > 0) {
     return (
       <div>
-        <ChannelsListener userId={userId} channels={channels} setChannels={setChannels}>
+        <ChannelsListener userId={userId} setChannels={setChannels}>
         {channels.map((channel: any) => {
           const contact =
             channel.members[0].toString() === userId
@@ -33,6 +40,8 @@ export default function DisplayContacts({ userId }: { userId: string }) {
             <>
               <Link key={channel._id} href={`/welcome/chat/${channel._id}`}>
                 <ContactCardMessage
+                  currentChannelId={currentChannelId}
+                  channelId={channel._id}
                   currentUser={userId}
                   chat={channel.chat}
                   id={contact}

@@ -32,36 +32,34 @@ export default function ChatLogs({
     setMessages(parsedChats.reverse());
   }, [channelId, user]);
 
-
   /*
   Listen to the messages in the channel. Update the message array
   everytime a new message is received
   */
   const { channel } = useChannel(channelId, (message) => {
-    setMessages((prev) => {
-      return [
-        {
-          from: message.clientId,
-          message: message.data.text,
-          dateCreated: new Date(),
-        },
-        ...prev,
-      ];
-    });
+    if (message.name === "new-chat") {
+      setMessages((prev) => {
+        return [
+          {
+            from: message.clientId,
+            message: message.data.text,
+            dateCreated: new Date(),
+          },
+          ...prev,
+        ];
+      });
+    }
   });
 
   //Enter the presence array
-  const {updateStatus} = usePresence(channelId, "enter");
-  //get the presence data 
-  const {presenceData} = usePresenceListener(channelId);
+  const { updateStatus } = usePresence(channelId, "enter");
 
-  
+  //get the presence data
+  const { presenceData } = usePresenceListener(channelId);
 
   useEffect(() => {
     getChats();
   }, [getChats]);
-
-  
 
   return (
     <>
