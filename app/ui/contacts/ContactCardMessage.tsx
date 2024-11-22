@@ -120,7 +120,7 @@ const elapsedTime = (dateCreated: Date) => {
   let currentDate = new Date();
   let latestChatDate = new Date(dateCreated);
 
-  let elapsedTimeInMilisec = currentDate - latestChatDate;
+  let elapsedTimeInMilisec = currentDate.getMilliseconds() - latestChatDate.getMilliseconds();
   let finalTimeString = "";
 
   if (elapsedTimeInMilisec >= 86400000) {
