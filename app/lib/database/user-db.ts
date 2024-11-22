@@ -13,6 +13,7 @@ interface UpdateParams {
   image?: string;
   hash?: string;
   salt?: string;
+  online?: boolean;
 }
 
 export async function create(user: User) {

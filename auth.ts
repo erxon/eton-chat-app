@@ -22,7 +22,6 @@ async function getUser(email: string): Promise<UserObject | undefined> {
     const user = await User.findOne({ email: email });
     return user;
   } catch (error) {
-    console.log(error);
     throw new Error("Failed to fetch user");
   }
 }

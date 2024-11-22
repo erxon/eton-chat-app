@@ -6,6 +6,9 @@ import CharacterAvatar from "../components/CharacterAvatar";
 import { ChatInterface } from "@/app/lib/chat/data";
 import { useState, useEffect, useMemo } from "react";
 import { updateChat } from "@/app/lib/chat/actions";
+import { useConnectionStateListener } from "ably/react";
+import { realtime } from "@/app/lib/utilities/ably-realtime";
+import { RealtimeChannel } from "ably";
 
 export default function ContactCardMessage({
   currentChannelId,
@@ -14,6 +17,7 @@ export default function ContactCardMessage({
   active = false,
   currentUser,
   chat,
+  contactIsActive,
 }: {
   currentChannelId: string;
   channelId: string;
@@ -21,12 +25,13 @@ export default function ContactCardMessage({
   active: boolean;
   currentUser: string;
   chat: ChatInterface[];
+  contactIsActive: boolean;
 }) {
   const [user, setUser] = useState<any>(null);
 
   let latestChat = useMemo(() => {
     return chat.length > 0 ? chat[chat.length - 1] : {};
-  }, [chat])
+  }, [chat]);
 
   const [isUnread, setIsUnread] = useState<boolean>(false);
 
@@ -44,7 +49,7 @@ export default function ContactCardMessage({
       );
     }
 
-    if (currentChannelId === channelId){
+    if (currentChannelId === channelId) {
       latestChat.state = "read";
       setIsUnread(false);
     }
@@ -67,26 +72,72 @@ export default function ContactCardMessage({
             <CharacterAvatar name={user.name} />
           )}
           {/* Active Indicator */}
-          <div className="absolute w-3 h-3 right-0 bottom-0 rounded-full bg-green-500"></div>
+          {contactIsActive ? (
+            <div className="absolute w-3 h-3 right-0 bottom-0 rounded-full bg-green-500"></div>
+          ) : (
+            <div className="absolute w-3 h-3 right-0 bottom-0 rounded-full bg-neutral-300"></div>
+          )}
         </div>
         <div className="flex-1">
           {/* Contact's name */}
           <p className="font-semibold">{user?.name}</p>
           {/* Recent message sent */}
-          <p
+          <div
             className={clsx(
+              "flex items-center",
               isUnread
                 ? "text-black font-semibold text-sm"
                 : "text-sm text-neutral-500"
             )}
           >
-            {latestChat && latestChat?.from?.toString() === currentUser
-              ? `You: ${latestChat.message}`
-              : latestChat.message}
-          </p>
+            <p className="flex-1">
+              {latestChat && latestChat?.from?.toString() === currentUser
+                ? `You: ${truncateChat(latestChat.message!)}`
+                : `${truncateChat(latestChat.message!)}`}
+            </p>
+            <p>
+              {latestChat && latestChat?.dateCreated && (
+                elapsedTime(latestChat.dateCreated)
+              )}
+            </p>
+          </div>
         </div>
         {isUnread && <div className="w-3 h-3 rounded-full bg-blue-500"></div>}
       </div>
     );
   }
 }
+
+const truncateChat = (chat: String) => {
+  if (chat.length > 20) {
+    return `${chat.substring(0, 20)}...`
+  } else {
+    return chat;
+  }
+}
+
+const elapsedTime = (dateCreated: Date) => {
+  let currentDate = new Date();
+  let latestChatDate = new Date(dateCreated);
+
+  let elapsedTimeInMilisec = currentDate - latestChatDate;
+  let finalTimeString = "";
+
+  if (elapsedTimeInMilisec >= 86400000) {
+    finalTimeString = `${Math.round(elapsedTimeInMilisec / 86400000)} days ago`;
+  }
+
+  if (elapsedTimeInMilisec < 86400000 && elapsedTimeInMilisec >= 3600000) {
+    finalTimeString = `${Math.round(elapsedTimeInMilisec / 3600000)} hours ago`;
+  }
+
+  if (elapsedTimeInMilisec < 3600000 && elapsedTimeInMilisec >= 60000) {
+    finalTimeString = `${Math.round(elapsedTimeInMilisec / 60000)} mins ago`;
+  }
+
+  if (elapsedTimeInMilisec < 60000) {
+    finalTimeString = "New";
+  }
+
+  return finalTimeString;
+};

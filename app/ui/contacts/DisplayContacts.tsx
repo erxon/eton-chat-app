@@ -6,51 +6,53 @@ import Link from "next/link";
 import { Channel, fetchUserChannels } from "@/app/lib/channel/data";
 import ChannelsListener from "./ChannelsListener";
 import { fetchChannels } from "../fetch/channels";
-import { realtime } from "@/app/lib/utilities/ably-realtime";
 import { useParams } from "next/navigation";
+import useAblyPresence from "../hooks/useAblyPresence";
 
 export default function DisplayContacts({ userId }: { userId: string }) {
   const [channels, setChannels] = useState<Array<Channel>>([]);
-  const {id} = useParams();
-  const currentChannelId = id.toString();
+  const { id } = useParams();
+  const currentChannelId = id ? id.toString() : "";
+  const onlineUsers = useAblyPresence("chat", userId);
 
-  realtime.connection.on('connected', (stateChange) => {
-    console.log(stateChange);
-  })
   const fetchData = useCallback(async () => {
     const result = await fetchChannels(userId);
     setChannels(result.data);
   }, [userId]);
 
-
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [fetchData, currentChannelId]);
 
   if (channels.length > 0) {
     return (
       <div>
         <ChannelsListener userId={userId} setChannels={setChannels}>
-        {channels.map((channel: any) => {
-          const contact =
-            channel.members[0].toString() === userId
-              ? channel.members[1]
-              : channel.members[0];
-          return (
-            <>
-              <Link key={channel._id} href={`/welcome/chat/${channel._id}`}>
-                <ContactCardMessage
-                  currentChannelId={currentChannelId}
-                  channelId={channel._id}
-                  currentUser={userId}
-                  chat={channel.chat}
-                  id={contact}
-                  active={false}
-                />
-              </Link>
-            </>
-          );
-        })}</ChannelsListener>
+          {channels.map((channel: any) => {
+            const contact =
+              channel.members[0].toString() === userId
+                ? channel.members[1]
+                : channel.members[0];
+
+            const isActive = onlineUsers.indexOf(contact) !== -1;
+
+            return (
+              <>
+                <Link key={channel._id} href={`/welcome/chat/${channel._id}`}>
+                  <ContactCardMessage
+                    currentChannelId={currentChannelId}
+                    channelId={channel._id}
+                    currentUser={userId}
+                    chat={channel.chat}
+                    id={contact}
+                    active={false}
+                    contactIsActive={isActive}
+                  />
+                </Link>
+              </>
+            );
+          })}
+        </ChannelsListener>
       </div>
     );
   }

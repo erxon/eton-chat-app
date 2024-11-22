@@ -10,6 +10,7 @@ export interface Users extends mongoose.Document {
   createdAt: Date;
   emailVerified: Date;
   image: String;
+  online: Boolean;
 }
 
 const userSchema = new Schema<Users>({
@@ -20,6 +21,7 @@ const userSchema = new Schema<Users>({
   },
   emailVerified: Date,
   image: String,
+  online: Boolean,
   hash: String,
   salt: String,
   createdAt: Date,

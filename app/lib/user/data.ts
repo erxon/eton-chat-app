@@ -3,7 +3,6 @@
 import User from "../models/User";
 import Account from "../models/Account";
 import dbConnect from "../db-connect";
-import { unstable_noStore as noStore } from "next/cache";
 
 export type User = {
   id: string;
@@ -25,6 +24,7 @@ export async function fetchUserById(id: string) {
 
 export async function fetchUserByEmail(email: string | undefined | null) {
   try {
+    await dbConnect();
     const user = await User.findOne({ email: email });
 
     return {
@@ -42,7 +42,6 @@ export async function fetchUserByEmail(email: string | undefined | null) {
 
 export async function fetchAccount(id: string) {
   try {
-    noStore();
     await dbConnect();
     const account = await Account.findOne({ userId: id });
     return account;
