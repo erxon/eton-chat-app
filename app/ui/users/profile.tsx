@@ -81,14 +81,6 @@ export default async function Profile({ id }: { id: string }) {
 
             <h1 className="font-bold mb-3">{user.name}</h1>
 
-            {session?.user?.email !== user?.email && (
-              <div>
-                <button className="btn btn-sm btn-primary">
-                  <UserPlusIcon className="w-4 h-4 text-white" />
-                  Add
-                </button>
-              </div>
-            )}
             {session?.user?.email === user?.email && (
               <Link
                 href={`/welcome/profile/edit`}
