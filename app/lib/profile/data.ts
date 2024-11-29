@@ -4,7 +4,7 @@ import Profile from "../models/Profile";
 
 export async function fetchContacts(email: string | null | undefined) {
   try {
-    const profile = await Profile.findOne({ email: email});
+    const profile = await Profile.findOne({ email: email}).populate("contacts").exec();
     const contacts = profile?.contacts;
 
     return contacts;

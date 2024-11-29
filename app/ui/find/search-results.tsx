@@ -48,8 +48,8 @@ export default async function Results({ query }: { query: string }) {
       return false;
     }
 
-    const result = !!contacts.find((contact: string) => {
-      return userID === contact.toString();
+    const result = !!contacts.find((contact: any) => {
+      return userID === contact.id.toString();
     });
 
     return result;
@@ -67,6 +67,8 @@ export default async function Results({ query }: { query: string }) {
         if (!(currentUser?.id === user.id)) {
           return (
             <UserCard
+              currentUserName={currentUser.name}
+              currentUserImage={currentUser.image}
               key={user.id}
               query={query}
               currentUser={currentUser?.id}

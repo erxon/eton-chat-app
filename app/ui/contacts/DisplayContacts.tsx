@@ -29,28 +29,30 @@ export default function DisplayContacts({ userId }: { userId: string }) {
       <div>
         <ChannelsListener userId={userId} setChannels={setChannels}>
           {channels.map((channel: any) => {
-            const contact =
-              channel.members[0].toString() === userId
-                ? channel.members[1]
-                : channel.members[0];
+            if (channel.status === "active") {
+              const contact =
+                channel.members[0].toString() === userId
+                  ? channel.members[1]
+                  : channel.members[0];
 
-            const isActive = onlineUsers.indexOf(contact) !== -1;
+              const isActive = onlineUsers.indexOf(contact) !== -1;
 
-            return (
-              <>
-                <Link key={channel._id} href={`/welcome/chat/${channel._id}`}>
-                  <ContactCardMessage
-                    currentChannelId={currentChannelId}
-                    channelId={channel._id}
-                    currentUser={userId}
-                    chat={channel.chat}
-                    id={contact}
-                    active={false}
-                    contactIsActive={isActive}
-                  />
-                </Link>
-              </>
-            );
+              return (
+                <>
+                  <Link key={channel._id} href={`/welcome/chat/${channel._id}`}>
+                    <ContactCardMessage
+                      currentChannelId={currentChannelId}
+                      channelId={channel._id}
+                      currentUser={userId}
+                      chat={channel.chat}
+                      id={contact}
+                      active={false}
+                      contactIsActive={isActive}
+                    />
+                  </Link>
+                </>
+              );
+            }
           })}
         </ChannelsListener>
       </div>

@@ -44,8 +44,8 @@ export async function fetchChannelByMembers(member1: string, member2: string) {
 export async function fetchUserChannels(userId: string | null) {
   try {
     let channels = await Channel.find({ members: userId }).sort({
-      dateModified : -1
-    })
+      dateModified: -1,
+    });
 
     return channels;
   } catch (error) {
@@ -61,5 +61,23 @@ export async function fetchChannelById(channelId: string) {
     if (error instanceof Error) {
       throw new Error("Something went wrong");
     }
+  }
+}
+
+export async function fetchRequestedBy(id: string) {
+  try {
+    const channels = await Channel.find({ requestedBy: id });
+    return { data: channels, success: true };
+  } catch (error) {
+    return { data: [], success: false };
+  }
+}
+
+export async function fetchRequestedTo(id: string) {
+  try {
+    const channels = await Channel.find({ requestedTo: id });
+    return { data: channels, success: true };
+  } catch (error) {
+    return { data: [], success: false };
   }
 }

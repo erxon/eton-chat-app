@@ -8,8 +8,7 @@ import { editChannel } from "../database/channel-db";
 
 export async function contactRequestAccepted(
   inviter: string,
-  accepter: string,
-  query: string
+  accepter: string
 ) {
   try {
     await addContacts(inviter, accepter);
@@ -18,9 +17,6 @@ export async function contactRequestAccepted(
       throw new Error(error.message);
     }
   }
-
-  revalidatePath(`/welcome/find?query=${query}`);
-  redirect(`/welcome/find?query=${query}`);
 }
 
 export async function inactivateChannel(userID: string, contact: string) {
@@ -60,7 +56,13 @@ export async function removeFromContact(
       throw new Error(error.message);
     }
   }
+  if (query) {
+    revalidatePath(`/welcome/find?query=${query}`);
+    redirect(`/welcome/find?query=${query}`);
+  } else {
+    revalidatePath(`/welcome/contacts`);
+    redirect(`/welcome/contacts`);
+  }
 
-  revalidatePath(`/welcome/find?query=${query}`);
-  redirect(`/welcome/find?query=${query}`);
+  
 }

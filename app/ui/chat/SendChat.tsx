@@ -115,7 +115,7 @@ function TypingState({
       <>
         {contactTypingState && contactTypingState.data.isTyping && (
           <div className="flex items-center gap-1 text-blue-500">
-            <ChatBubbleLeftEllipsisIcon className="w-4 h-4" />
+            <span className="loading loading-dots loading-xs"></span>
             <div className="text-neutral-500 text-sm">
               {contactName} is typing...
             </div>

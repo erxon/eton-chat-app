@@ -16,6 +16,7 @@ export type User = {
 export async function fetchUserById(id: string) {
   try {
     const user = await User.findById(id);
+    console.log(user)
     return user;
   } catch (error) {
     throw new Error("Something went wrong fetching user");

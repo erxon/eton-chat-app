@@ -9,6 +9,7 @@ import { updateChat } from "@/app/lib/chat/actions";
 import { useConnectionStateListener } from "ably/react";
 import { realtime } from "@/app/lib/utilities/ably-realtime";
 import { RealtimeChannel } from "ably";
+import { elapsedTime } from "../components/utilties/elapsed-time";
 
 export default function ContactCardMessage({
   currentChannelId,
@@ -82,6 +83,7 @@ export default function ContactCardMessage({
           {/* Contact's name */}
           <p className="font-semibold">{user?.name}</p>
           {/* Recent message sent */}
+          { chat.length > 0 &&  
           <div
             className={clsx(
               "flex items-center",
@@ -100,7 +102,7 @@ export default function ContactCardMessage({
                 elapsedTime(latestChat.dateCreated)
               )}
             </p>
-          </div>
+          </div>}
         </div>
         {isUnread && <div className="w-3 h-3 rounded-full bg-blue-500"></div>}
       </div>
@@ -109,35 +111,9 @@ export default function ContactCardMessage({
 }
 
 const truncateChat = (chat: String) => {
-  if (chat.length > 20) {
+  if (chat && chat.length > 20) {
     return `${chat.substring(0, 20)}...`
   } else {
     return chat;
   }
 }
-
-const elapsedTime = (dateCreated: Date) => {
-  let currentDate = new Date();
-  let latestChatDate = new Date(dateCreated);
-
-  let elapsedTimeInMilisec = currentDate.getMilliseconds() - latestChatDate.getMilliseconds();
-  let finalTimeString = "";
-
-  if (elapsedTimeInMilisec >= 86400000) {
-    finalTimeString = `${Math.round(elapsedTimeInMilisec / 86400000)} days ago`;
-  }
-
-  if (elapsedTimeInMilisec < 86400000 && elapsedTimeInMilisec >= 3600000) {
-    finalTimeString = `${Math.round(elapsedTimeInMilisec / 3600000)} hours ago`;
-  }
-
-  if (elapsedTimeInMilisec < 3600000 && elapsedTimeInMilisec >= 60000) {
-    finalTimeString = `${Math.round(elapsedTimeInMilisec / 60000)} mins ago`;
-  }
-
-  if (elapsedTimeInMilisec < 60000) {
-    finalTimeString = "New";
-  }
-
-  return finalTimeString;
-};

@@ -11,7 +11,7 @@ export default function RemoveToContactBtn({
 }: {
   userID: string;
   contact: string;
-  query: string;
+  query?: string;
 }) {
   const deleteRequest = useRef<HTMLDialogElement>(null);
   const [disabled, setDisabled] = useState(false);
@@ -36,7 +36,7 @@ export default function RemoveToContactBtn({
               disabled={disabled}
               onClick={async () => {
                 setDisabled(true);
-                await removeFromContact(userID, contact, query);
+                await removeFromContact(userID, contact, query!);
               }}
             >
               Yes

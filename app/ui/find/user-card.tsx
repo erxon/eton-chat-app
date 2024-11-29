@@ -10,8 +10,11 @@ import { contactRequestAccepted } from "@/app/lib/profile/actions";
 import RemoveToContactBtn from "../components/contacts/RemoveToContactBtn";
 import { useState } from "react";
 import Loading from "../components/Loading";
+import { acceptRequest } from "../components/utilties/contacts";
 
 export default function UserCard({
+  currentUserName,
+  currentUserImage,
   query,
   currentUser,
   userID,
@@ -22,6 +25,8 @@ export default function UserCard({
   userReceivedRequest,
   isContact,
 }: {
+  currentUserName: string;
+  currentUserImage: string;
   query: string;
   currentUser: string;
   userID: string;
@@ -40,15 +45,9 @@ export default function UserCard({
 
     setLoading(true);
     try {
-      // activate the channel
-      await activateChannel(currentLoggedInUser, userToAccept);
-
-      // accept contact request
-      await contactRequestAccepted(userToAccept, currentLoggedInUser, query);
+      await acceptRequest(currentLoggedInUser, userToAccept, query);
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
+      console.log(error);
     }
   }
 
@@ -91,6 +90,7 @@ export default function UserCard({
               Accept
             </button>
           ))}
+
         {isContact && (
           <RemoveToContactBtn
             userID={currentUser}
@@ -100,6 +100,8 @@ export default function UserCard({
         )}
         {!userReceivedRequest && !userRequest && !isContact && (
           <AddToContactBtn
+            currentUserImage={currentUserImage}
+            currentUserName={currentUserName}
             currentUser={currentUser}
             userID={userID}
             query={query}
