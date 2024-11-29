@@ -27,5 +27,8 @@ export async function acceptRequest(
   if (query) {
     revalidatePath(`/welcome/find?query=${query}`);
     redirect(`/welcome/find?query=${query}`);
+  } else {
+    revalidatePath(`/welcome/contacts`);
+    redirect(`/welcome/contacts/requests`);
   }
 }

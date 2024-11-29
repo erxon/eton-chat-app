@@ -11,7 +11,7 @@ export default function CancelRequestBtn({
 }: {
   currentUserID: string;
   otherUserID: string;
-  query: string;
+  query?: string;
 }) {
   const cancelRequestConfirmation = useRef<HTMLDialogElement>(null);
   const [disabled, setDisabled] = useState(false);

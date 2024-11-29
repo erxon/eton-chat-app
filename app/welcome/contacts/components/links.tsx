@@ -13,7 +13,7 @@ export function UnconfirmedLink({
 }) {
   return (
     <Link
-      href="/welcome/contacts/unconfirmed"
+      href="/welcome/contacts/pending"
       className={`${linkStyle} flex px-4`}
     >
       <p className="grow">Pending requests</p>

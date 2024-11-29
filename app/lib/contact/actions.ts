@@ -48,5 +48,8 @@ export async function deleteChannel(
   if (query) {
     revalidatePath(`/welcome/find?query=${query}`);
     redirect(`/welcome/find?query=${query}`);
+  } else {
+    revalidatePath(`/welcome/contacts/pending`);
+    redirect(`/welcome/contacts/pending`);
   }
 }
