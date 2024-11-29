@@ -2,7 +2,7 @@ export function elapsedTime(dateCreated: Date) {
   let currentDate = new Date();
   let endDate = new Date(dateCreated);
 
-  let elapsedTimeInMilisec = currentDate - endDate;
+  let elapsedTimeInMilisec = currentDate.valueOf() - endDate.valueOf();
   let finalTimeString = "";
 
   if (elapsedTimeInMilisec >= (86400000 * 3)) {
