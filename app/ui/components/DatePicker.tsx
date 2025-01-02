@@ -63,7 +63,6 @@ export default function DatePicker({
 
   const handleChange = (selectedDate: Date) => {
     setSelectedDate(selectedDate);
-    console.log(selectedDate);
   };
 
   const handleClose = (state: boolean) => {

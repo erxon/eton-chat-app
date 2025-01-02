@@ -113,7 +113,6 @@ function Notifications({ userId }: { userId: string }) {
   }, [fetchNotifications]);
 
   channel.subscribe("request", (message) => {
-    console.log(message.data);
     setNotifications([...notifications, message.data]);
   });
 

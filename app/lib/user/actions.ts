@@ -112,8 +112,6 @@ export async function createUser(prevState: State, formData: FormData) {
       salt: encryptedPassword.salt,
     });
 
-    console.log(email);
-
     await createProfile(email);
 
     id = newUser.id;

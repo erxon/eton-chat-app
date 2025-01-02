@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { ChatInterface } from "@/app/lib/chat/data";
 import { useEffect, useRef } from "react";
+import { elapsedTime } from "../components/utilties/elapsed-time";
 
 export default function Logs({
   chat,
@@ -42,20 +43,32 @@ export default function Logs({
                   <div className="w-[32px]"></div>
                 </div>
 
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2">
                   {!isFromCurrentUser && (
                     <Avatar address={userFromContactImage} />
                   )}
                   <div
-                    className={clsx(
-                      "p-3 rounded-full w-fit text-sm font-medium",
-                      {
-                        "bg-blue-500  text-white": isFromCurrentUser,
-                        "bg-neutral-200": !isFromCurrentUser,
-                      }
-                    )}
+                    className={clsx({ "justify-items-end": isFromCurrentUser })}
                   >
-                    <p>{item.message}</p>
+                    <div
+                      className={clsx(
+                        "p-3 rounded-full w-fit text-sm font-medium mb-1",
+                        {
+                          "bg-blue-500 text-white": isFromCurrentUser,
+                          "bg-neutral-200": !isFromCurrentUser,
+                        }
+                      )}
+                    >
+                      <p>{item.message}</p>
+                    </div>
+                    <p
+                      className={clsx("text-sm text-neutral-500", {
+                        "text-right": isFromCurrentUser,
+                        "text-left": !isFromCurrentUser,
+                      })}
+                    >
+                      {elapsedTime(new Date(item.dateCreated!))}
+                    </p>
                   </div>
                   {isFromCurrentUser && <Avatar address={currentUserImage} />}
                 </div>

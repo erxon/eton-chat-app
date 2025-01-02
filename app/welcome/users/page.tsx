@@ -8,7 +8,7 @@ export default async function Page({searchParams} : {
   }
 }) {
   const query = searchParams?.query || '';
-  console.log(query)
+
   return (
     <main className="p-3">
       <h1 className="mb-3">Users</h1>

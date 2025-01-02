@@ -43,7 +43,6 @@ export default function AddToContactBtn({
             );
 
             const result = JSON.parse(response);
-            console.log(result)
             if (result) {
               channel.publish("request", {
                 id: result._id,

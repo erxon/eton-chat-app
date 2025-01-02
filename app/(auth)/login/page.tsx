@@ -15,7 +15,7 @@ export default function Page() {
           </Link>
         </p>
         {/* Add Providers (Google, Facebook, Github) */}
-        <SignInWithGoogle />
+        {/* <SignInWithGoogle /> */}
       </div>
     </>
   );

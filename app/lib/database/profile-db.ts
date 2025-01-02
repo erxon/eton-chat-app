@@ -20,7 +20,6 @@ export async function createProfile(email: string) {
 //Add Contact to each user
 export async function addContacts(inviter: string, accepter: string) {
   try {
-    console.log(inviter, accepter);
 
     const addToInviter = await User.findById(inviter);
     const addToAccepter = await User.findById(accepter);
